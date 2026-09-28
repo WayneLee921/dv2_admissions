@@ -1,0 +1,91 @@
+state,dimension,group,applicants,offers
+Australia,Year 12 status,Non-Year 12,185204,147960
+Australia,Year 12 status,Current Year 12,133425,122219
+Australia,Age,19 and under,195986,174732
+Australia,Age,20-24,63174,48622
+Australia,Age,25-39,43223,33473
+Australia,Age,40 and over,16246,13352
+Australia,Gender,Female,191879,162172
+Australia,Gender,Male,125031,106627
+Australia,Home state,Home state,278363,236964
+Australia,Home state,Interstate / overseas,38355,32023
+New South Wales,Year 12 status,Non-Year 12,62787,54100
+New South Wales,Year 12 status,Current Year 12,37755,34408
+New South Wales,Age,19 and under,65125,59723
+New South Wales,Age,20-24,19696,15684
+New South Wales,Age,25-39,11525,9442
+New South Wales,Age,40 and over,4196,3659
+New South Wales,Gender,Female,59849,52788
+New South Wales,Gender,Male,40414,35481
+New South Wales,Home state,Home state,88320,78239
+New South Wales,Home state,Interstate / overseas,12048,10123
+Victoria,Year 12 status,Non-Year 12,45579,33219
+Victoria,Year 12 status,Current Year 12,41801,36830
+Victoria,Age,19 and under,53388,45363
+Victoria,Age,20-24,18575,13400
+Victoria,Age,25-39,11469,8290
+Victoria,Age,40 and over,3948,2996
+Victoria,Gender,Female,51453,41092
+Victoria,Gender,Male,35165,28384
+Victoria,Home state,Home state,80978,64658
+Victoria,Home state,Interstate / overseas,6255,5263
+Queensland,Year 12 status,Non-Year 12,33309,28293
+Queensland,Year 12 status,Current Year 12,25023,23515
+Queensland,Age,19 and under,35207,32474
+Queensland,Age,20-24,10758,8942
+Queensland,Age,25-39,8816,7330
+Queensland,Age,40 and over,3551,3062
+Queensland,Gender,Female,36208,31914
+Queensland,Gender,Male,21771,19582
+Queensland,Home state,Home state,50328,44898
+Queensland,Home state,Interstate / overseas,7964,6873
+Western Australia,Year 12 status,Non-Year 12,17425,11475
+Western Australia,Year 12 status,Current Year 12,13344,12928
+Western Australia,Age,19 and under,18024,15691
+Western Australia,Age,20-24,6292,4355
+Western Australia,Age,25-39,4769,3168
+Western Australia,Age,40 and over,1684,1189
+Western Australia,Gender,Female,18970,14815
+Western Australia,Gender,Male,11684,9504
+Western Australia,Home state,Home state,28196,22241
+Western Australia,Home state,Interstate / overseas,2563,2151
+South Australia,Year 12 status,Non-Year 12,10926,9030
+South Australia,Year 12 status,Current Year 12,9727,8991
+South Australia,Age,19 and under,12730,11603
+South Australia,Age,20-24,3797,3150
+South Australia,Age,25-39,2963,2318
+South Australia,Age,40 and over,1163,950
+South Australia,Gender,Female,12732,11065
+South Australia,Gender,Male,7845,6892
+South Australia,Home state,Home state,18698,16412
+South Australia,Home state,Interstate / overseas,1945,1601
+Tasmania,Year 12 status,Non-Year 12,5114,4423
+Tasmania,Year 12 status,Current Year 12,2059,2030
+Tasmania,Age,19 and under,2903,2765
+Tasmania,Age,20-24,1503,1277
+Tasmania,Age,25-39,1756,1482
+Tasmania,Age,40 and over,1011,929
+Tasmania,Gender,Female,4742,4239
+Tasmania,Gender,Male,2362,2155
+Tasmania,Home state,Home state,5728,5293
+Tasmania,Home state,Interstate / overseas,1435,1149
+Australian Capital Territory,Year 12 status,Non-Year 12,3905,3218
+Australian Capital Territory,Year 12 status,Current Year 12,2176,2135
+Australian Capital Territory,Age,19 and under,3432,3194
+Australian Capital Territory,Age,20-24,1341,1070
+Australian Capital Territory,Age,25-39,948,777
+Australian Capital Territory,Age,40 and over,360,312
+Australian Capital Territory,Gender,Female,3474,3035
+Australian Capital Territory,Gender,Male,2570,2287
+Australian Capital Territory,Home state,Home state,4824,4209
+Australian Capital Territory,Home state,Interstate / overseas,1234,1127
+Northern Territory,Year 12 status,Non-Year 12,1476,1124
+Northern Territory,Year 12 status,Current Year 12,911,803
+Northern Territory,Age,19 and under,1211,1031
+Northern Territory,Age,20-24,371,282
+Northern Territory,Age,25-39,587,436
+Northern Territory,Age,40 and over,218,178
+Northern Territory,Gender,Female,1569,1258
+Northern Territory,Gender,Male,811,665
+Northern Territory,Home state,Home state,1291,1014
+Northern Territory,Home state,Interstate / overseas,1078,898

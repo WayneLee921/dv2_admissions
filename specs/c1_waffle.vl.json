@@ -1,18 +1,26 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "C1 Waffle chart. Of every 100 applicants for an undergraduate place in 2025, 85 received an offer. Source: Department of Education, Undergraduate applications and offers 2025.",
+  "description": "C1 Waffle chart. Of every 100 domestic applicants for a Commonwealth supported undergraduate place in semester 1 2025, 85 received an offer. Source: Department of Education, Undergraduate Applications and Offers 2025, Table A2.",
   "title": {
     "text": "85 in every 100 applicants get an offer",
-    "subtitle": "Applicants for undergraduate places, 2025"
+    "subtitle": "Domestic applicants for undergraduate places, semester 1 2025"
   },
   "width": 260,
   "height": 260,
 
-  "data": { "sequence": { "start": 0, "stop": 100, "as": "i" } },
+  "data": { "url": "data/a2_groups_by_state_2025.csv" },
 
   "transform": [
-    { "calculate": "318629", "as": "applicants" },
-    { "calculate": "270179", "as": "offers" },
+    { "filter": "datum.state === 'Australia' && datum.dimension === 'Year 12 status'" },
+    {
+      "aggregate": [
+        { "op": "sum", "field": "applicants", "as": "applicants" },
+        { "op": "sum", "field": "offers", "as": "offers" }
+      ]
+    },
+    { "calculate": "sequence(0, 100)", "as": "i" },
+    { "flatten": ["i"] },
+
     { "calculate": "round(100 * datum.offers / datum.applicants)", "as": "offerSquares" },
     { "calculate": "floor(datum.i / 10)", "as": "row" },
     { "calculate": "datum.i % 10", "as": "col" },

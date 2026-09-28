@@ -3,6 +3,12 @@
    Blue family  = Australia / offers (the system being explained)
    Marigold     = Malaysia (the reader's point of view)
    ========================================================= */
+
+/*
+  The :root selector acts like a global dictionary for your CSS.
+  Here, we are defining "Custom Properties"
+  They start with "--". Later, we can use var(--name) to apply them
+*/
 :root {
   --paper:   #F7F8F5;
   --ink:     #1D2433;
@@ -14,25 +20,40 @@
   --my:      #E3A72F;
   --my-text: #8A5D05;   /* marigold dark enough for text on paper */
 
+  /* Font stacks: The browser will try the first dont, and if it's missing, move to the next */
   --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
   --sans:  "Public Sans", "Helvetica Neue", Arial, sans-serif;
 
+  /* 'ch' means 'character width'. 62 characters is considered the ideal reading width for text */
   --measure: 62ch;
-  --gap: 32px;
+  --gap: 32px;    
 }
 
+/* 
+  The asterisk (*) targets literally EVERY element on the page.
+  'box-sizing: border-box' is a magic trick that forces borders and padding 
+  to be included inside an element's total width, instead of adding to it. 
+  It prevents layout bugs where things randomly overflow the screen.
+*/
 * { box-sizing: border-box; }
 
+/* Setting a base font size on the root HTML tag */
 html { font-size: 17px; }
+
+/* These are the default rules for the entire visible page */
 body {
-  margin: 0;
-  background: var(--paper);
-  color: var(--ink);
+  margin: 0;    /* Removes the default browser margin around the page edges */
+  background: var(--paper); /* Uses our variable for the off-white color*/
+  color: var(--ink);  /* Uses the variable for the text color */
   font-family: var(--sans);
-  line-height: 1.55;
-  -webkit-font-smoothing: antialiased;
+  line-height: 1.55;    /* Makes text more readable by adding space between lines */
+  -webkit-font-smoothing: antialiased;  /* Makes fonts look slightly thinner and crisper on Mac/iOS */
 }
 
+/*
+  A "wrapper" or "container" class
+  It stops content from stretching infinitely on ultra-wide monitors
+*/
 .wrap {
   max-width: 1120px;
   margin: 0 auto;
@@ -40,15 +61,23 @@ body {
 }
 
 /* ---------- type scale (1.25 ratio) ---------- */
+/* Grouping selectors together to apply the same rules to all headings */
 h1, h2, h3 { font-family: var(--serif); font-weight: 600; line-height: 1.15; margin: 0; }
+
+/* 'rem' means a multiplier of the html font-size. 2.1rem = 2.1 * 17px = 35.7px */
 h2 { font-size: 2.1rem; margin-bottom: 1.4rem; }
 h3 { font-size: 1.25rem; margin-bottom: 0.5rem; }
+/* 'em' is relative to the current font size, not the root */
 p  { margin: 0 0 0.9em; max-width: var(--measure); }
 strong { font-weight: 600; }
 
 /* ---------- hero: the one loud element ---------- */
 .hero { padding: 88px 0 56px; border-bottom: 1px solid var(--rule); }
 .hero h1 {
+  /*
+    clamp() is an amazing responsive tool
+    It says: "Be 11vw (11% of screen width), but never smaller than 4rem, and never bigger than 8.5rem
+  */
   font-size: clamp(4rem, 11vw, 8.5rem);
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -60,41 +89,62 @@ strong { font-weight: 600; }
   font-size: 1.55rem;
   line-height: 1.35;
   margin: 1.2rem 0 2.2rem;
-  max-width: 34ch;
+  max-width: 34ch;  /* Limits the width of this specific text so it wraps beutifully */
 }
+
+/* 
+  Flexbos is a layout mode that aligns items in rows or columns.
+  'display: flex' turns the .kpis container into a flexible row
+  'flex-wrap: wrap' allows items to drop to the next line if the screen gets to small
+*/
 .kpis { display: flex; gap: 48px; margin: 0 0 1.4rem; flex-wrap: wrap; }
 .kpis div { border-top: 2px solid var(--au); padding-top: 8px; min-width: 150px; }
 .kpis dt { font-size: 0.85rem; color: var(--ink-2); }
+
+/* font-variant-numeric: lining-nums tabular-nums ensures all numbers take up the exct same wifth to align perfectly in columns */
 .kpis dd { margin: 0; font-family: var(--serif); font-size: 2.2rem; font-weight: 600; font-variant-numeric: lining-nums tabular-nums; }
 .scope { font-size: 0.9rem; color: var(--ink-2); }
 
 /* ---------- story sections ---------- */
 .story { padding: 72px 0 24px; }
+
+/* 
+  The "+" is an "adjacent sibling selector". 
+  It says: "If a .story section comes IMMEDIATELY after another .story section, put a border on top of it."
+  This prevents borders from appearing at the very top of the first section.
+*/
 .story + .story { border-top: 1px solid var(--rule); }
+
 .num {
-  display: inline-block;
+  display: inline-block; /* Allows us to set a width on an inline element like a <span> */
   width: 1.4em;
   color: var(--au);
   font-weight: 700;
 }
 
+/* 
+  CSS Grid is a powerful 2D layout system. 
+  'display: grid' turns this element into a grid container. 
+*/
 .grid { display: grid; gap: var(--gap); margin-bottom: var(--gap); align-items: start; }
+
+/* '1fr' means "1 fraction of the available space". Two 1frs makes two equal columns. */
 .g-2 { grid-template-columns: 1fr 1fr; }
-.g-3 { grid-template-columns: 1fr 1fr 1fr; }
+.g-3 { grid-template-columns: 1fr 1fr 1fr; } /* Three equal columns */
 
 /* ---------- figures ---------- */
 .chart { margin: 0; min-width: 0; }
 .chart.wide { margin-bottom: var(--gap); }
-.chart .vis { width: 100%; }
+.chart .vis { width: 100%; } /* Ensures the visualization takes up the full width of its container */
 figcaption { font-size: 0.82rem; color: var(--ink-2); margin-top: 6px; }
 
 /* placeholder slots for charts not built yet */
 .chart.pending .vis {
   min-height: 220px;
-  border: 1px dashed var(--rule);
-  border-radius: 4px;
+  border: 1px dashed var(--rule); /* Dashed border for a "blueprint" look */
+  border-radius: 4px; /* Rounds the corners */
   display: grid;
-  place-items: center;
+  place-items: center; /* A Grid shortcut that perfectly centers content vertically and horizontally */
   color: var(--ink-2);
   font-size: 0.85rem;
   text-align: center;
@@ -109,6 +159,11 @@ figcaption { font-size: 0.82rem; color: var(--ink-2); margin-top: 6px; }
   padding: 20px 22px;
   font-size: 0.95rem;
 }
+
+/* 
+  :last-child targets the very last <p> tag inside the .explainer box.
+  We remove the bottom margin here so the text doesn't awkwardly push against the bottom of the box. 
+*/
 .explainer p:last-child { margin-bottom: 0; }
 .prose { font-size: 1.05rem; }
 .pull {
@@ -126,18 +181,31 @@ figcaption { font-size: 0.82rem; color: var(--ink-2); margin-top: 6px; }
 .sources li { margin-bottom: 0.4em; }
 
 /* ---------- Vega tooltip, matched to page type ---------- */
+/* These styles override the default look of the interactive chart tooltips to match your website's theme. */
 #vg-tooltip-element {
   font-family: var(--sans);
   font-size: 13px;
   border-radius: 4px;
   border: 1px solid var(--rule);
-  box-shadow: 0 2px 8px rgba(29, 36, 51, 0.12);
+  box-shadow: 0 2px 8px rgba(29, 36, 51, 0.12); /* Adds a soft drop shadow (X-offset, Y-offset, blur, color) */
 }
 
 /* ---------- accessibility + responsive ---------- */
+
+/* 
+  :focus-visible controls the outline that appears when users navigate the site using a keyboard (like the Tab key).
+  It's crucial for accessibility, so keyboard users know exactly where they are on the page.
+*/
 :focus-visible { outline: 2px solid var(--au); outline-offset: 2px; }
 
+/* 
+  Media queries are how we do "Responsive Design". 
+  This says: "If the user's screen is 860px wide or smaller (like a tablet or phone), apply these rules." 
+*/
 @media (max-width: 860px) {
+  /* This changes our 2 and 3 column grids into a single, stacked column for small screens. */
   .g-2, .g-3 { grid-template-columns: 1fr; }
+  
+  /* Reduces the top padding of the hero section so it doesn't take up the whole phone screen. */
   .hero { padding-top: 56px; }
 }
