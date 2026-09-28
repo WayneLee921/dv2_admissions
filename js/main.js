@@ -1,0 +1,66 @@
+/*
+ * Chart loader.
+ * Each chart's spec lives in its own readable JSON file under /specs.
+ * The shared theme below keeps fonts and colours consistent across all charts,
+ * so individual specs only describe their data, marks and encodings.
+ */
+
+// Add one line here each time a new chart is built.
+const CHARTS = {
+  c1: "specs/c1_waffle.vl.json",
+};
+
+const THEME = {
+  background: null,                 // let the page colour show through
+  font: "Public Sans",
+  view: { stroke: null },           // no border box around plots (data-ink)
+  title: {
+    font: "Source Serif 4",
+    fontSize: 17,
+    fontWeight: 600,
+    color: "#1D2433",
+    anchor: "start",
+    subtitleFont: "Public Sans",
+    subtitleFontSize: 13,
+    subtitleColor: "#5A6475",
+    offset: 12,
+  },
+  axis: {
+    labelFont: "Public Sans",
+    labelFontSize: 12,
+    labelColor: "#5A6475",
+    titleFont: "Public Sans",
+    titleFontSize: 12,
+    titleFontWeight: 500,
+    titleColor: "#5A6475",
+    domainColor: "#9AA3AE",
+    tickColor: "#9AA3AE",
+    gridColor: "#E4E8EB",
+  },
+  legend: {
+    labelFont: "Public Sans",
+    labelFontSize: 12,
+    labelColor: "#1D2433",
+    titleFont: "Public Sans",
+    titleFontSize: 12,
+    titleColor: "#5A6475",
+    symbolType: "square",
+  },
+  text: { font: "Public Sans", fontSize: 12, color: "#1D2433" },
+  range: {
+    // Sequential blues for Australian data; marigold reserved for Malaysia.
+    ramp: ["#E3EEF3", "#A9CBD8", "#5B9AB3", "#1F6F8B", "#12384A"],
+  },
+};
+
+const EMBED_OPTIONS = {
+  actions: false,     // hide the "..." menu; the page is for reading, not exporting
+  renderer: "svg",    // crisp at any zoom, and text stays selectable
+  config: THEME,
+};
+
+for (const [id, spec] of Object.entries(CHARTS)) {
+  vegaEmbed(`#${id}`, spec, EMBED_OPTIONS)
+    .then(() => document.getElementById(id).closest(".chart")?.classList.remove("pending"))
+    .catch((err) => console.error(`Chart ${id} failed to load`, err));
+}

@@ -1,0 +1,56 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "C1 Waffle chart. Of every 100 applicants for an undergraduate place in 2025, 85 received an offer. Source: Department of Education, Undergraduate applications and offers 2025.",
+  "title": {
+    "text": "85 in every 100 applicants get an offer",
+    "subtitle": "Applicants for undergraduate places, 2025"
+  },
+  "width": 260,
+  "height": 260,
+
+  "data": { "sequence": { "start": 0, "stop": 100, "as": "i" } },
+
+  "transform": [
+    { "calculate": "318629", "as": "applicants" },
+    { "calculate": "270179", "as": "offers" },
+    { "calculate": "round(100 * datum.offers / datum.applicants)", "as": "offerSquares" },
+    { "calculate": "floor(datum.i / 10)", "as": "row" },
+    { "calculate": "datum.i % 10", "as": "col" },
+    {
+      "calculate": "datum.i < datum.offerSquares ? 'Offered a place' : 'No offer'",
+      "as": "outcome"
+    },
+    {
+      "calculate": "datum.outcome === 'Offered a place' ? format(datum.offers, ',') + ' applicants (' + format(datum.offers / datum.applicants, '.1%') + ')' : format(datum.applicants - datum.offers, ',') + ' applicants (' + format(1 - datum.offers / datum.applicants, '.1%') + ')'",
+      "as": "detail"
+    }
+  ],
+
+  "params": [
+    {
+      "name": "hover",
+      "select": { "type": "point", "fields": ["outcome"], "on": "pointerover", "clear": "pointerout" }
+    }
+  ],
+
+  "mark": { "type": "rect", "stroke": "#F7F8F5", "strokeWidth": 3, "cornerRadius": 2, "cursor": "default" },
+
+  "encoding": {
+    "x": { "field": "col", "type": "ordinal", "axis": null },
+    "y": { "field": "row", "type": "ordinal", "axis": null },
+    "color": {
+      "field": "outcome",
+      "type": "nominal",
+      "scale": { "domain": ["Offered a place", "No offer"], "range": ["#1F6F8B", "#C9D2D9"] },
+      "legend": { "orient": "bottom", "title": null, "direction": "horizontal" }
+    },
+    "opacity": {
+      "condition": { "param": "hover", "empty": true, "value": 1 },
+      "value": 0.35
+    },
+    "tooltip": [
+      { "field": "outcome", "title": "Outcome" },
+      { "field": "detail", "title": "Nationally" }
+    ]
+  }
+}
