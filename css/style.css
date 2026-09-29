@@ -131,6 +131,8 @@ strong { font-weight: 600; }
 /* '1fr' means "1 fraction of the available space". Two 1frs makes two equal columns. */
 .g-2 { grid-template-columns: 1fr 1fr; }
 .g-3 { grid-template-columns: 1fr 1fr 1fr; } /* Three equal columns */
+.g-lead { grid-template-columns: auto 1fr; }
+.g-lead .explainer { align-self: center; }
 
 /* ---------- figures ---------- */
 .chart { margin: 0; min-width: 0; }
@@ -204,7 +206,7 @@ figcaption { font-size: 0.82rem; color: var(--ink-2); margin-top: 6px; }
 */
 @media (max-width: 860px) {
   /* This changes our 2 and 3 column grids into a single, stacked column for small screens. */
-  .g-2, .g-3 { grid-template-columns: 1fr; }
+  .g-2, .g-3, .g-lead { grid-template-columns: 1fr; }
   
   /* Reduces the top padding of the hero section so it doesn't take up the whole phone screen. */
   .hero { padding-top: 56px; }

@@ -1,0 +1,247 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "C2 Gantt chart. The UAC (NSW and ACT) admissions calendar for semester 1, 2027: applications stay open for ten months, but most offers are made in December and January, after ATARs are released. Sources: Universities Admissions Centre, Undergraduate applications, offers and key dates (2026); Department of Education, Undergraduate Applications and Offers 2025.",
+  "title": {
+    "text": "Applications stay open for ten months, but most offers arrive in December and January",
+    "subtitle": "Admissions calendar for semester 1, 2027 at UAC, the admissions centre for NSW and the ACT"
+  },
+  "width": "container",
+  "height": 210,
+
+  "data": {
+    "url": "data/c2_uac_calendar_2027.csv",
+    "format": {
+      "parse": {
+        "start": "date",
+        "end": "date"
+      }
+    }
+  },
+
+  "encoding": {
+    "y": {
+      "field": "task",
+      "type": "nominal",
+      "sort": [
+        "Apply through UAC",
+        "Early-bird fee",
+        "Early offers",
+        "ATAR released",
+        "Offer rounds",
+        "Most offers made"
+      ],
+      "axis": {
+        "title": null,
+        "domain": false,
+        "ticks": false,
+        "labelPadding": 10,
+        "labelFontSize": 12,
+        "labelColor": "#1D2433"
+      }
+    },
+    "x": {
+      "field": "start",
+      "type": "temporal",
+      "scale": {
+        "domain": {
+          "expr": "[datetime(2026, 3, 1), datetime(2027, 2, 15)]"
+        }
+      },
+      "axis": {
+        "title": null,
+        "format": "%b",
+        "tickCount": "month",
+        "grid": true,
+        "domain": false,
+        "labelFlush": true
+      }
+    }
+  },
+  "layer": [
+    {
+      "transform": [
+        {
+          "filter": "datum.type === 'period'"
+        }
+      ],
+      "mark": {
+        "type": "bar",
+        "height": 14,
+        "cornerRadius": 3
+      },
+      "encoding": {
+        "x2": {
+          "field": "end"
+        },
+        "color": {
+          "field": "who",
+          "type": "nominal",
+          "title": "Applies to",
+          "scale": {
+            "domain": [
+              "Everyone",
+              "Year 12 students"
+            ],
+            "range": [
+              "#5B9AB3",
+              "#12384A"
+            ]
+          },
+          "legend": {
+            "orient": "top",
+            "direction": "horizontal",
+            "offset": 4
+          }
+        },
+        "tooltip": [
+          {
+            "field": "task",
+            "title": "Stage"
+          },
+          {
+            "field": "detail",
+            "title": "Details"
+          }
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.type === 'milestone'"
+        }
+      ],
+      "mark": {
+        "type": "point",
+        "shape": "diamond",
+        "filled": true,
+        "stroke": "#F7F8F5",
+        "strokeWidth": 1,
+        "opacity": 1
+      },
+      "encoding": {
+        "color": {
+          "field": "who",
+          "type": "nominal"
+        },
+        "size": {
+          "condition": {
+            "test": "datum.emphasis === 'yes'",
+            "value": 190
+          },
+          "value": 80
+        },
+        "tooltip": [
+          {
+            "field": "start",
+            "type": "temporal",
+            "title": "Date",
+            "format": "%d %b %Y"
+          },
+          {
+            "field": "detail",
+            "title": "What happens"
+          }
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.emphasis === 'yes'"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "center",
+        "baseline": "bottom",
+        "dy": -10,
+        "fontWeight": 600,
+        "fontSize": 12,
+        "color": "#12384A"
+      },
+      "encoding": {
+        "text": {
+          "field": "label"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "note": "Today"
+          }
+        ]
+      },
+      "transform": [
+        {
+          "calculate": "now()",
+          "as": "start"
+        },
+        {
+          "filter": "datum.start >= datetime(2026, 3, 1) && datum.start <= datetime(2027, 2, 15)"
+        }
+      ],
+      "mark": {
+        "type": "rule",
+        "strokeDash": [
+          4,
+          3
+        ],
+        "color": "#5A6475"
+      },
+      "encoding": {
+        "x": {
+          "field": "start",
+          "type": "temporal"
+        },
+        "y": null
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "note": "Today"
+          }
+        ]
+      },
+      "transform": [
+        {
+          "calculate": "now()",
+          "as": "start"
+        },
+        {
+          "filter": "datum.start >= datetime(2026, 3, 1) && datum.start <= datetime(2027, 2, 15)"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "bottom",
+        "dx": 4,
+        "dy": -3,
+        "fontSize": 11,
+        "color": "#5A6475"
+      },
+      "encoding": {
+        "x": {
+          "field": "start",
+          "type": "temporal"
+        },
+        "y": {
+          "value": 0
+        },
+        "text": {
+          "field": "note"
+        }
+      }
+    }
+  ],
+  "resolve": {
+    "scale": {
+      "color": "shared"
+    }
+  }
+}

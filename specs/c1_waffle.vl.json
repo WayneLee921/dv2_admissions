@@ -3,10 +3,10 @@
   "description": "C1 Waffle chart. Of every 100 domestic applicants for a Commonwealth supported undergraduate place in semester 1 2025, 85 received an offer. Source: Department of Education, Undergraduate Applications and Offers 2025, Table A2.",
   "title": {
     "text": "85 in every 100 applicants get an offer",
-    "subtitle": "Domestic applicants for undergraduate places, semester 1 2025"
+    "subtitle": ["Domestic applicants for undergraduate places, semester 1 2025"]
   },
-  "width": 260,
-  "height": 260,
+  "width": 300,
+  "height": 300,
 
   "data": { "url": "data/a2_groups_by_state_2025.csv" },
 

@@ -8,19 +8,20 @@
 // Add one line here each time a new chart is built.
 const CHARTS = {
   c1: "specs/c1_waffle.vl.json",
+  c2: "specs/c2_gantt.vl.json",
 };
 
 const THEME = {
   background: null,                 // let the page colour show through
-  font: "Public Sans",
+  font: "'Public Sans', Arial, sans-serif",
   view: { stroke: null },           // no border box around plots (data-ink)
   title: {
-    font: "Source Serif 4",
+    font: "'Source Serif 4', Georgia, serif",
     fontSize: 17,
     fontWeight: 600,
     color: "#1D2433",
     anchor: "start",
-    subtitleFont: "Public Sans",
+    subtitleFont: "'Public Sans', Arial, sans-serif",
     subtitleFontSize: 13,
     subtitleColor: "#5A6475",
     offset: 12,
@@ -59,8 +60,12 @@ const EMBED_OPTIONS = {
   config: THEME,
 };
 
-for (const [id, spec] of Object.entries(CHARTS)) {
-  vegaEmbed(`#${id}`, spec, EMBED_OPTIONS)
-    .then(() => document.getElementById(id).closest(".chart")?.classList.remove("pending"))
-    .catch((err) => console.error(`Chart ${id} failed to load`, err));
-}
+// Wait until the web fonts have loaded, so Vega measures text with the real
+// typeface. Otherwise titles can be sized for the fallback font and get clipped.
+document.fonts.ready.then(() => {
+  for (const [id, spec] of Object.entries(CHARTS)) {
+    vegaEmbed(`#${id}`, spec, EMBED_OPTIONS)
+      .then(() => document.getElementById(id).closest(".chart")?.classList.remove("pending"))
+      .catch((err) => console.error(`Chart ${id} failed to load`, err));
+  }
+});

@@ -1,5 +1,5 @@
-<!-- This tells the web browser that this is a modern HTML5 document -->
 <!doctype html>
+<!-- This tells the web browser that this is a modern HTML5 document -->
 <!-- The root element that wraps all the content on the page. Tells the readers and the search engines that the language is English -->
 <html lang="en">
 <head>
@@ -8,7 +8,7 @@
   <meta charset="utf-8">
   <!-- Crucial for mobile responsiveness: tells the browser to match the screen's width and not zoom out by default -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  
+
   <!-- The title that appears on top of the browser tab at the very top of your screen -->
   <title>Getting in: how Australia decides who gets a university place</title>
   <meta name="description" content="A data visualisation of Australian undergraduate applications and offers, 2010 to 2025, for Malaysian readers.">
@@ -41,7 +41,7 @@
     <p class="dek">How Australia decides who gets a university place, and what that means for students from Malaysia.</p>
     <!-- <dl> stands for Description List. It's used for name-value pairs (like a dictionary)-->
     <!-- <dt> is the term (Applicant), and <dd> is the definition or data (318,629) -->
-      <dl class="kpis">
+    <dl class="kpis">
       <div><dt>Applicants in 2025</dt><dd>318,629</dd></div>
       <div><dt>Offers made</dt><dd>270,179</dd></div>
       <div><dt>Offer rate</dt><dd>85%</dd></div>
@@ -60,35 +60,30 @@
       <!-- <h2> is a sub-heading. <span> is a generic containerfor text used here just to style the number "1" differently -->
       <h2><span class="num">1</span>The front door is wider than you think</h2>
 
-      <div class="grid g-3">
-        <!-- <figure> is used to wrap images, diagrams, or charts -->
+      <div class="grid g-lead">
         <figure class="chart">
-          <!-- This empty <div> has an ID of "c1". will likely look for this ID to inject the Vega chart here -->
           <div id="c1" class="vis"></div>
-          <!-- <figcaption> is the caption/label that goes directly beneath the figure -->
           <figcaption>Each square is about 3,190 applicants.</figcaption>
         </figure>
 
-        <figure class="chart pending" aria-label="Chart 2, coming in a later step">
-          <div id="c2" class="vis"><p>C2 Gantt: the admissions calendar</p></div>
-        </figure>
-
-        <!-- <aside> is used for sidebars or call-out boxes that are related to the main text but slightly separate -->
         <aside class="explainer">
-          <!-- <h3> is the third level of heading -->
           <h3>What is an ATAR?</h3>
-          <!-- <strong> makes the text bold and indicates it is important -->
           <p>The Australian Tertiary Admission Rank is a <strong>rank</strong>, not a mark out of 100. It runs from 0 to 99.95 and shows where a student stands against everyone their age in their state.</p>
           <p>An ATAR of 80 means you did better than 80% of your age group. Universities publish the lowest ATAR they accepted for each course.</p>
         </aside>
       </div>
+
+      <figure class="chart wide">
+        <div id="c2" class="vis"></div>
+        <figcaption>Dates from UAC, which handles admissions for NSW and the ACT. Other states' admissions centres follow a similar cycle with slightly different dates.</figcaption>
+      </figure>
 
       <div class="grid g-2">
         <figure class="chart pending">
           <div id="c3" class="vis"><p>C3 Connected scatterplot: applications and unemployment</p></div>
         </figure>
         <div class="prose">
-          <p>[Story spine: demand follows the economy. Written in step 3.]</p>
+          <p>[Story spine: demand follows the economy. Written with C3.]</p>
         </div>
       </div>
     </div>
@@ -112,9 +107,9 @@
       <h2><span class="num">3</span>What people want to study has flipped</h2>
       <figure class="chart pending wide"><div id="c7" class="vis"><p>C7 Bump chart: field of education rank</p></div></figure>
       <div class="grid g-2">
-        <figure class="chart pending"><div id="c8" class="vis"><p>C8 Heatmap: field by ATAR band</p></div></figure>
+        <figure class="chart pending"><div id="c8" class="vis"><p>C8 Heatmap: state by ATAR band</p></div></figure>
         <!-- <blockquote> is specifically used for quoting long pieces of text or highlighting a major statistic/quote -->
-        <blockquote class="pull">[The 60% headline. Written in step 6.]</blockquote>
+        <blockquote class="pull">[The 60% headline. Written with C8.]</blockquote>
       </div>
     </div>
   </section>
@@ -125,11 +120,11 @@
       <h2><span class="num">4</span>ATAR is not the only way in</h2>
       <div class="grid g-2">
         <figure class="chart pending"><div id="c9" class="vis"><p>C9 Alluvial diagram: the admissions funnel</p></div></figure>
-        <figure class="chart pending"><div id="c10" class="vis"><p>C10 Connected dot plot: offer rate by group</p></div></figure>
+        <figure class="chart pending"><div id="c10" class="vis"><p>C10 Connected dot plot: Year 12 and non-Year 12 offer rates by state</p></div></figure>
       </div>
       <div class="grid g-2">
-        <figure class="chart pending"><div id="c11" class="vis"><p>C11 Butterfly chart: applicants and offers by age</p></div></figure>
-        <figure class="chart pending"><div id="c12" class="vis"><p>C12 Small multiples: teaching and nursing by state</p></div></figure>
+        <figure class="chart pending"><div id="c11" class="vis"><p>C11 Butterfly chart (decided when built)</p></div></figure>
+        <figure class="chart pending"><div id="c12" class="vis"><p>C12 Small multiples (decided when built)</p></div></figure>
       </div>
     </div>
   </section>
@@ -141,7 +136,7 @@
       <div class="grid g-3">
         <figure class="chart pending"><div id="c13" class="vis"><p>C13 Flow map: Malaysia to Australian states</p></div></figure>
         <figure class="chart pending"><div id="c14" class="vis"><p>C14 Annotated line: Malaysian commencements</p></div></figure>
-        <aside class="explainer"><h3>So what?</h3><p>[Three takeaways. Written in step 8.]</p></aside>
+        <aside class="explainer"><h3>So what?</h3><p>[Three takeaways. Written with section 5.]</p></aside>
       </div>
     </div>
   </section>
@@ -157,9 +152,9 @@
       <!-- <li> stands for List Item. Every item in the bulleted list needs this tag -->
       <!-- <em> italicizes text, usually for emphasis or citing publication names -->
       <li>Department of Education (2026). <em>Undergraduate applications and offers 2025</em>. Australian Government. Licensed under CC BY 4.0.</li>
-      <li>[More sources are added as each chart is built.]</li>
+      <li>Universities Admissions Centre (2026). <em>Undergraduate applications, offers and key dates</em>. https://uac.edu.au/current-applicants/undergraduate-applications-and-offers</li>
     </ul>
-    <p>Created by [YOUR NAME], [DATE]. FIT3179 Data Visualisation 2, Monash University.</p>
+    <p>Created by Lee Jun Wen, [DATE]. FIT3179 Data Visualisation 2, Monash University.</p>
     <p>AI use: Claude (Anthropic) assisted with code, layout and copy editing. All data is from the sources above and has not been altered.</p>
   </div>
 </footer>
