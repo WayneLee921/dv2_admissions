@@ -167,7 +167,7 @@ figcaption { font-size: 0.82rem; color: var(--ink-2); margin-top: 6px; }
   We remove the bottom margin here so the text doesn't awkwardly push against the bottom of the box. 
 */
 .explainer p:last-child { margin-bottom: 0; }
-.prose { font-size: 1.05rem; }
+.prose { font-size: 1.05rem; align-self: center;}
 .pull {
   margin: 0;
   font-family: var(--serif);

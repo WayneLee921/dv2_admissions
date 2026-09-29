@@ -1,0 +1,268 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "C3 Connected scatterplot. Each dot is one intake year from 2010 to 2025, placed by the unemployment rate in the year before (when people decide whether to apply) and the number of university applicants. Dots are joined in time order. When unemployment rose, applications tended to rise too. Sources: Department of Education, Undergraduate Applications and Offers 2025, Table A1; Australian Bureau of Statistics, Labour Force, Australia, Table 1 (series A84423050A, seasonally adjusted).",
+    "title": {
+        "text": "Applications tend to rise when jobs are scarce",
+        "subtitle": [
+            "Each dot is one intake year, joined in time order.",
+            "Darker dots are more recent."
+        ]
+    },
+    "width": "container",
+    "height": 320,
+    "data": {
+        "url": "data/c3_applicants_unemployment.csv",
+        "format": {
+            "parse": {
+                "intake_year": "number",
+                "applicants": "number",
+                "unemployment_prior_year": "number"
+            }
+        }
+    },
+    "encoding": {
+        "x": {
+            "field": "unemployment_prior_year",
+            "type": "quantitative",
+            "title": "Unemployment rate in the year before (%)",
+            "scale": {
+                "domain": [
+                    3.4,
+                    6.8
+                ],
+                "zero": false
+            },
+            "axis": {
+                "tickCount": 6,
+                "grid": true
+            }
+        },
+        "y": {
+            "field": "applicants",
+            "type": "quantitative",
+            "title": "Applicants",
+            "scale": {
+                "domain": [
+                    290000,
+                    352000
+                ],
+                "zero": false
+            },
+            "axis": {
+                "tickCount": 5,
+                "labelExpr": "format(datum.value / 1000, ',') + 'k'",
+                "grid": true
+            }
+        }
+    },
+    "layer": [
+        {
+            "description": "Line joining the years in time order (order channel, not x order)",
+            "mark": {
+                "type": "line",
+                "color": "#7FA9BD",
+                "strokeWidth": 2,
+                "interpolate": "linear"
+            },
+            "encoding": {
+                "order": {
+                    "field": "intake_year"
+                }
+            }
+        },
+        {
+            "description": "One dot per year; colour gets darker over time so direction is readable",
+            "mark": {
+                "type": "circle",
+                "size": 70,
+                "opacity": 1,
+                "stroke": "#F7F8F5",
+                "strokeWidth": 1
+            },
+            "encoding": {
+                "color": {
+                    "field": "intake_year",
+                    "type": "quantitative",
+                    "scale": {
+                        "range": [
+                            "#C9DDE6",
+                            "#12384A"
+                        ]
+                    },
+                    "legend": null
+                },
+                "tooltip": [
+                    {
+                        "field": "intake_year",
+                        "type": "ordinal",
+                        "title": "Intake year"
+                    },
+                    {
+                        "field": "applicants",
+                        "type": "quantitative",
+                        "title": "Applicants",
+                        "format": ","
+                    },
+                    {
+                        "field": "unemployment_prior_year",
+                        "type": "quantitative",
+                        "title": "Unemployment the year before (%)",
+                        "format": ".1f"
+                    }
+                ]
+            }
+        },
+        {
+            "description": "Year labels to the right of their dot (all except 2022)",
+            "transform": [
+                {
+                    "filter": "datum.intake_year !== 2022"
+                }
+            ],
+            "mark": {
+                "type": "text",
+                "align": "left",
+                "dx": 8,
+                "dy": -1,
+                "fontSize": 11,
+                "fontWeight": 600,
+                "color": "#1D2433"
+            },
+            "encoding": {
+                "text": {
+                    "field": "intake_year",
+                    "type": "ordinal"
+                }
+            }
+        },
+        {
+            "description": "2022 label flipped to the left, because its dot sits right next to 2013",
+            "transform": [
+                {
+                    "filter": "datum.intake_year === 2022"
+                }
+            ],
+            "mark": {
+                "type": "text",
+                "align": "right",
+                "dx": -8,
+                "dy": -1,
+                "fontSize": 11,
+                "fontWeight": 600,
+                "color": "#1D2433"
+            },
+            "encoding": {
+                "text": {
+                    "field": "intake_year",
+                    "type": "ordinal"
+                }
+            }
+        },
+        {
+            "description": "Connector from the COVID note up to the 2021 dot",
+            "data": {
+                "values": [
+                    {
+                        "x": 6.47,
+                        "y": 341000,
+                        "x2": 6.47,
+                        "y2": 323500
+                    }
+                ]
+            },
+            "mark": {
+                "type": "rule",
+                "color": "#9AA3AE",
+                "strokeWidth": 1
+            },
+            "encoding": {
+                "x": {
+                    "field": "x",
+                    "type": "quantitative"
+                },
+                "y": {
+                    "field": "y",
+                    "type": "quantitative"
+                },
+                "x2": {
+                    "field": "x2"
+                },
+                "y2": {
+                    "field": "y2"
+                }
+            }
+        },
+        {
+            "description": "Annotation: COVID turning point (right-aligned, bottom right corner)",
+            "data": {
+                "values": [
+                    {
+                        "x": 6.75,
+                        "y": 322500,
+                        "lines": [
+                            "COVID job losses in 2020,",
+                            "then applicants jump in 2021"
+                        ]
+                    }
+                ]
+            },
+            "mark": {
+                "type": "text",
+                "align": "right",
+                "baseline": "top",
+                "fontSize": 11,
+                "lineHeight": 14,
+                "color": "#5A6475"
+            },
+            "encoding": {
+                "x": {
+                    "field": "x",
+                    "type": "quantitative"
+                },
+                "y": {
+                    "field": "y",
+                    "type": "quantitative"
+                },
+                "text": {
+                    "field": "lines"
+                }
+            }
+        },
+        {
+            "description": "Annotation: tight job market, applicants low (left-aligned, below 2023)",
+            "data": {
+                "values": [
+                    {
+                        "x": 3.45,
+                        "y": 297600,
+                        "lines": [
+                            "Plenty of jobs in 2022,",
+                            "fewest applicants since 2010"
+                        ]
+                    }
+                ]
+            },
+            "mark": {
+                "type": "text",
+                "align": "left",
+                "baseline": "top",
+                "fontSize": 11,
+                "lineHeight": 14,
+                "color": "#5A6475"
+            },
+            "encoding": {
+                "x": {
+                    "field": "x",
+                    "type": "quantitative"
+                },
+                "y": {
+                    "field": "y",
+                    "type": "quantitative"
+                },
+                "text": {
+                    "field": "lines"
+                }
+            }
+        }
+    ]
+}

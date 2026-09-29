@@ -9,6 +9,7 @@
 const CHARTS = {
   c1: "specs/c1_waffle.vl.json",
   c2: "specs/c2_gantt.vl.json",
+  c3: "specs/c3_connected_scatter.vl.json",
 };
 
 const THEME = {
@@ -17,7 +18,7 @@ const THEME = {
   view: { stroke: null },           // no border box around plots (data-ink)
   title: {
     font: "'Source Serif 4', Georgia, serif",
-    fontSize: 17,
+    fontSize: 20,
     fontWeight: 600,
     color: "#1D2433",
     anchor: "start",
