@@ -1,0 +1,39 @@
+university,short_name,state,city,applicants_2024,applicants_2025,offers_2025,city_lon,city_lat,city_type,city_universities
+The Australian National University,ANU,Australian Capital Territory,Canberra,6343,5814,5175,149.13,-35.28,Capital city,"ANU, Canberra"
+University of Canberra,Canberra,Australian Capital Territory,Canberra,3559,3913,3524,149.13,-35.28,Capital city,"ANU, Canberra"
+Australian Catholic University,ACU,Multi-State,Multi-state,11216,11221,10042,,,Multi-state,ACU
+The University of New England,New England,New South Wales,Armidale,6706,7037,6242,151.67,-30.51,Regional city,New England
+Charles Sturt University,Charles Sturt,New South Wales,Bathurst,11104,10284,9871,149.58,-33.42,Regional city,Charles Sturt
+Southern Cross University,Southern Cross,New South Wales,Lismore,6004,7189,6255,153.28,-28.81,Regional city,Southern Cross
+The University of Newcastle,Newcastle,New South Wales,Newcastle,13162,14929,14853,151.78,-32.93,Regional city,Newcastle
+Macquarie University,Macquarie,New South Wales,Sydney,7218,8101,9588,151.21,-33.87,Capital city,"Sydney, UTS, UNSW, Macquarie, Western Sydney"
+The University of New South Wales,UNSW,New South Wales,Sydney,10800,11580,7069,151.21,-33.87,Capital city,"Sydney, UTS, UNSW, Macquarie, Western Sydney"
+The University of Sydney,Sydney,New South Wales,Sydney,11058,13097,8980,151.21,-33.87,Capital city,"Sydney, UTS, UNSW, Macquarie, Western Sydney"
+"University of Technology, Sydney",UTS,New South Wales,Sydney,11640,11582,10157,151.21,-33.87,Capital city,"Sydney, UTS, UNSW, Macquarie, Western Sydney"
+University of Western Sydney,Western Sydney,New South Wales,Sydney,5325,5917,6225,151.21,-33.87,Capital city,"Sydney, UTS, UNSW, Macquarie, Western Sydney"
+University of Wollongong,Wollongong,New South Wales,Wollongong,4752,4596,3461,150.89,-34.42,Regional city,Wollongong
+Charles Darwin University,Charles Darwin,Northern Territory,Darwin,3072,2956,2128,130.84,-12.46,Capital city,Charles Darwin
+Griffith University,Griffith,Queensland,Brisbane,9933,9595,8709,153.03,-27.47,Capital city,"QUT, UQ, Griffith"
+Queensland University of Technology,QUT,Queensland,Brisbane,11159,12820,12252,153.03,-27.47,Capital city,"QUT, UQ, Griffith"
+The University of Queensland,UQ,Queensland,Brisbane,11016,11756,9474,153.03,-27.47,Capital city,"QUT, UQ, Griffith"
+Central Queensland University,CQU,Queensland,Rockhampton,4371,4650,3911,150.51,-23.38,Regional city,CQU
+University of the Sunshine Coast,Sunshine Coast,Queensland,Sunshine Coast,5105,5695,5369,153.07,-26.65,Regional city,Sunshine Coast
+University of Southern Queensland,Southern Queensland,Queensland,Toowoomba,3598,4057,3606,151.95,-27.56,Regional city,Southern Queensland
+James Cook University,James Cook,Queensland,Townsville,4285,4675,3286,146.82,-19.26,Regional city,James Cook
+Flinders University of South Australia,Flinders,South Australia,Adelaide,5745,5796,5316,138.6,-34.93,Capital city,"UniSA, Adelaide, Flinders"
+The University of Adelaide,Adelaide,South Australia,Adelaide,6328,5959,5023,138.6,-34.93,Capital city,"UniSA, Adelaide, Flinders"
+University of South Australia,UniSA,South Australia,Adelaide,8787,8707,7384,138.6,-34.93,Capital city,"UniSA, Adelaide, Flinders"
+University of Tasmania,Tasmania,Tasmania,Hobart,9105,9544,8733,147.33,-42.88,Capital city,Tasmania
+Federation University of Australia,Federation,Victoria,Ballarat,4608,4702,2610,143.85,-37.56,Regional city,Federation
+Deakin University,Deakin,Victoria,Melbourne,11514,11460,10177,144.96,-37.81,Capital city,"RMIT, Monash, Deakin, Melbourne, La Trobe, Swinburne, Victoria University"
+La Trobe University,La Trobe,Victoria,Melbourne,9717,10436,9962,144.96,-37.81,Capital city,"RMIT, Monash, Deakin, Melbourne, La Trobe, Swinburne, Victoria University"
+Monash University,Monash,Victoria,Melbourne,14300,15572,12008,144.96,-37.81,Capital city,"RMIT, Monash, Deakin, Melbourne, La Trobe, Swinburne, Victoria University"
+RMIT University,RMIT,Victoria,Melbourne,15587,16459,13027,144.96,-37.81,Capital city,"RMIT, Monash, Deakin, Melbourne, La Trobe, Swinburne, Victoria University"
+Swinburne University of Technology,Swinburne,Victoria,Melbourne,7993,7852,7280,144.96,-37.81,Capital city,"RMIT, Monash, Deakin, Melbourne, La Trobe, Swinburne, Victoria University"
+The University of Melbourne,Melbourne,Victoria,Melbourne,10397,10773,6938,144.96,-37.81,Capital city,"RMIT, Monash, Deakin, Melbourne, La Trobe, Swinburne, Victoria University"
+Victoria University,Victoria University,Victoria,Melbourne,4985,7799,5967,144.96,-37.81,Capital city,"RMIT, Monash, Deakin, Melbourne, La Trobe, Swinburne, Victoria University"
+Curtin University of Technology,Curtin,Western Australia,Perth,10747,10713,8389,115.86,-31.95,Capital city,"Curtin, Edith Cowan, UWA, Notre Dame, Murdoch"
+Edith Cowan University,Edith Cowan,Western Australia,Perth,6800,6811,5289,115.86,-31.95,Capital city,"Curtin, Edith Cowan, UWA, Notre Dame, Murdoch"
+Murdoch University,Murdoch,Western Australia,Perth,4297,3929,2772,115.86,-31.95,Capital city,"Curtin, Edith Cowan, UWA, Notre Dame, Murdoch"
+The University of Notre Dame Australia,Notre Dame,Western Australia,Perth,3745,4580,4540,115.86,-31.95,Capital city,"Curtin, Edith Cowan, UWA, Notre Dame, Murdoch"
+The University of Western Australia,UWA,Western Australia,Perth,6173,6073,4587,115.86,-31.95,Capital city,"Curtin, Edith Cowan, UWA, Notre Dame, Murdoch"

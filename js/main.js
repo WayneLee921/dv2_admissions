@@ -11,6 +11,7 @@ const CHARTS = {
   c2: "specs/c2_gantt.vl.json",
   c3: "specs/c3_connected_scatter.vl.json",
   c4: "specs/c4_choropleth.vl.json",
+  c5: "specs/c5_symbol_map.vl.json",
 };
 
 const THEME = {

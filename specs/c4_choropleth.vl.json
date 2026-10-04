@@ -115,7 +115,7 @@
                 "color": {
                     "field": "pct_change",
                     "type": "quantitative",
-                    "title": "Change in applicant (%)",
+                    "title": "Change in applicants (%)",
                     "scale": {
                         "domain": [
                             -12,

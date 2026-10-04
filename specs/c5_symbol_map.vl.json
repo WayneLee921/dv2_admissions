@@ -1,0 +1,295 @@
+{ 
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "C5 Proportional symbol map. One circle per city, sized by the number of applicants to universities whose main campus is in that city in 2025, and coloured by the change from 2024 (same colours as the state map). Melbourne draws a quarter of all applicants, far more than Sydney. Australian Catholic University has campuses in several states and is not mapped. Sources: Department of Education, Undergraduate Applications and Offers 2025, Table A10; state boundaries from Natural Earth (public domain).",
+    "title": {
+        "text": "One in four applicants chooses a Melboourne university",
+        "subtitle": "Applicants by city of the university's main campus, 2025"
+    },
+    "width": "container",
+    "height": 380,
+    "projection": {
+        "type": "conicEqualArea",
+        "parallels": [
+            -18,
+            -36
+        ],
+        "rotate": [
+            -134,
+            0,
+            0
+        ]
+    },
+    "layer": [ 
+        {
+            "description": "Base map: states as a quiet grey background",
+            "data": {
+                "url": "data/au_states.topojson",
+                "format": {
+                    "type": "topojson",
+                    "feature": "states"
+                }
+            },
+            "mark": {
+                "type": "geoshape",
+                "fill": "#E6E9E6",
+                "stroke": "#F7F8F5",
+                "strokeWidth": 1
+            }
+        },
+
+        {
+            "description": "Circles: universities summed by city. Area is proportional to applicants",
+            "data": {
+                "url": "data/c5_universities.csv",
+                "format": {
+                    "parse": {
+                        "applicants_2024": "number",
+                        "applicants_2025": "number",
+                        "city_lon": "number",
+                        "city_lat": "number"
+                    }
+                }
+            },
+            "transform": [
+                {
+                    "filter": "datum.city !== 'Multi-state'"
+                },
+                {
+                    "aggregate": [
+                        {
+                            "op": "sum",
+                            "field": "applicants_2025",
+                            "as": "applicants"
+                        },
+                        {
+                            "op": "sum",
+                            "field": "applicants_2024",
+                            "as": "prev_applicants"
+                        },
+                        {
+                            "op": "count",
+                            "as": "n_universities"
+                        }
+                    ],
+                    "groupby": [
+                        "city",
+                        "city_lon",
+                        "city_lat",
+                        "city_type",
+                        "city_universities"
+                    ]
+                },
+                {
+                    "calculate": "(datum.applicants / datum.prev_applicants -1) * 100",
+                    "as": "pct_change"
+                }
+            ],
+            "params": [
+                {
+                    "name": "hover_city",
+                    "select": {
+                        "type": "point",
+                        "fields": [
+                            "city"
+                        ],
+                        "on": "pointerover",
+                        "clear": "pointerout"
+                    }
+                }
+            ],
+            "mark": {
+                "type": "circle",
+                "opacity": 0.85,
+                "stroke": "#1D2433"
+            },
+            "encoding": {
+                "longitude": {
+                    "field": "city_lon",
+                    "type": "quantitative"
+                },
+                "latitude": {
+                    "field": "city_lat",
+                    "type": "quantitative"
+                },
+                "size": {
+                    "field": "applicants",
+                    "type": "quantitative",
+                    "title": "Applicants",
+                    "scale": {
+                        "domain": [
+                            0,
+                            80000
+                        ],
+                        "range": [
+                            0,
+                            2000
+                        ]
+                    },
+                    "legend": {
+                        "orient": "bottom",
+                        "direction": "horizontal",
+                        "values": [
+                            5000,
+                            20000,
+                            80000
+                        ],
+                        "labelExpr": "format(datum.value, ',')",
+                        "symbolType": "circle",
+                        "symbolFillColor": "#C9D2D9",
+                        "symbolStrokeColor": "#5A6475",
+                        "symbolOpacity": 0.85
+                    }
+                },
+                "color": {
+                    "field": "pct_change",
+                    "type": "quantitative",
+                    "title": "Change since 2024 (%)",
+                    "scale": {
+                        "domain": [
+                            -12,
+                            -6,
+                            0,
+                            6,
+                            12
+                        ],
+                        "range": [
+                            "#B4533C",
+                            "#DDA793",
+                            "#EFEFEA",
+                            "#6FA3BA",
+                            "#12384A"
+                        ],
+                        "clamp": true
+                    },
+                    "legend": {
+                        "orient": "bottom",
+                        "direction": "horizontal",
+                        "gradientLength": 160,
+                        "values": [
+                            -12,
+                            0,
+                            12
+                        ],
+                        "labelExpr": "(datum.value > 0 ? '+' : '') +datum.value + '%'",
+                        "titleLimit": 300
+                    }
+                },
+                "strokeWidth": {
+                    "condition": {
+                        "param": "hover_city",
+                        "empty": false,
+                        "value": 2
+                    },
+                    "value": 0.6
+                },
+                "order": {
+                    "field": "applicants",
+                    "sort": "descending"
+                },
+                "tooltip": [
+                    {
+                        "field": "city",
+                        "title": "City"
+                    },
+                    {
+                        "field": "applicants",
+                        "type": "quantitative",
+                        "title": "Applicants, 2025",
+                        "format": ","
+                    },
+                    {
+                        "field": "pct_change",
+                        "type": "quantitative",
+                        "title": "Change since 2024 (%)",
+                        "format": "+.1f"
+                    },
+                    {
+                        "field": "city_universities",
+                        "title": "Universities"
+                    }
+                ]
+            }
+        },
+        {
+            "description": "City labels to the right of their circle",
+            "data": {
+                "values": [
+                    {
+                        "city": "Sydney",
+                        "lon": 151.21,
+                        "lat": -33.87
+                    },
+                    {
+                        "city": "Brisbane",
+                        "lon": 153.03,
+                        "lat": -27.47
+                    }
+                ]
+            },
+            "mark": {
+                "type": "text",
+                "align": "left",
+                "dx": 22,
+                "fontSize": 11,
+                "fontWeight": 600,
+                "color": "#1D2433"
+            },
+            "encoding": {
+                "longitude": {
+                    "field": "lon",
+                    "type": "quantitative"
+                },
+                "latitude": {
+                    "field": "lat",
+                    "type": "quantitative"
+                },
+                "text": {
+                    "field": "city"
+                }
+            }
+        },
+        {
+            "description": "City labels to the left of their circle",
+            "data": {
+                "values": [
+                    {
+                        "city": "Melbourne",
+                        "lon": 144.96,
+                        "lat": -37.81
+                    },
+                    {
+                        "city": "Perth",
+                        "lon": 115.86,
+                        "lat": -31.95
+                    },
+                    {
+                        "city": "Adelaide",
+                        "lon": 138.6,
+                        "lat": -34.93
+                    }
+                ]
+            },
+            "mark": {
+                "type": "text",
+                "align": "right",
+                "dx": -26,
+                "fontSize": 11,
+                "fontWeight": 600,
+                "color": "#1D2433"
+            },
+            "encoding": {
+                "longitude": {
+                    "field": "lon",
+                    "type": "quantitative"
+                },
+                "latitude": {
+                    "field": "lat",
+                    "type": "quantitative"
+                },
+                "text": {
+                    "field": "city"
+                }
+            }
+        }
+    ]
+}
