@@ -211,3 +211,8 @@ figcaption { font-size: 0.82rem; color: var(--ink-2); margin-top: 6px; }
   /* Reduces the top padding of the hero section so it doesn't take up the whole phone screen. */
   .hero { padding-top: 56px; }
 }
+
+/* Slider and other inputs that Vega creates from "bind */
+.vega-bindings {margin-top: 10px; font-size: 0.85rem; color: var(--ink-2);}
+.vega-bind-name {font-weight: 600; margin-right: 6px;}
+.vega-bind input[type="range"] {accent-color: var(--au); width: 220px; vertical-align: middle;}

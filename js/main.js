@@ -10,6 +10,7 @@ const CHARTS = {
   c1: "specs/c1_waffle.vl.json",
   c2: "specs/c2_gantt.vl.json",
   c3: "specs/c3_connected_scatter.vl.json",
+  c4: "specs/c4_choropleth.vl.json",
 };
 
 const THEME = {

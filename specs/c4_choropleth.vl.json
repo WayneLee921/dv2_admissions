@@ -1,0 +1,269 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "C4 Choropleth map. Percentage change in applicants to universities in each state and territory, compared with the year before. The slider selects the year (2011 to 2025, default 2025). Blue means more applicants than the year before, red means fewer. Sources: Department of Education, Undergraduate Applications and Offers 2025, Table A1; state boundaries from Natural Earth (public domain).",
+    "title": {
+        "text": {
+            "expr": "'Change in applicants by state, ' + year"
+        },
+        "subtitle": "Compared with the year before, by state of the universities applied to"
+    },
+    "width": "container",
+    "height": 380,
+    "params": [
+        {
+            "name": "year",
+            "value": 2025,
+            "bind": {
+                "input": "range",
+                "min": 2011,
+                "max": 2025,
+                "step": 1,
+                "name": "Year "
+            }
+        }
+    ],
+    "data": {
+        "url": "data/c4_state_applicants.csv",
+        "format": {
+            "parse": {
+                "year": "number",
+                "applicants": "number",
+                "offers": "number",
+                "label_lon": "number",
+                "label_lat": "number"
+            }
+        }
+    },
+    "transform": [
+        {
+            "window": [
+                {
+                    "op": "lag",
+                    "field": "applicants",
+                    "as": "prev_applicants"
+                }
+            ],
+            "groupby": [
+                "state"
+            ],
+            "sort": [
+                {
+                    "field": "year"
+                }
+            ]
+        },
+        {
+            "calculate": "(datum.applicants / datum.prev_applicants - 1) * 100",
+            "as": "pct_change"
+        },
+        {
+            "filter": "datum.year === year"
+        },
+        {
+            "lookup": "state",
+            "from": {
+                "data": {
+                    "url": "data/au_states.topojson",
+                    "format": {
+                        "type": "topojson",
+                        "feature": "states"
+                    }
+                },
+                "key": "properties.state"
+            },
+            "as": "geo"
+        }
+    ],
+    "projection": {
+        "type": "conicEqualArea",
+        "parallels": [
+            -18,
+            -36
+        ],
+        "rotate": [
+            -134,
+            0,
+            0
+        ]
+    },
+    "layer": [
+        {
+            "description": "State shapes, filled by percentage change (diverging scale centred on zero)",
+            "params": [
+                {
+                    "name": "hover",
+                    "select": {
+                        "type": "point",
+                        "fields": [
+                            "state"
+                        ],
+                        "on": "pointerover",
+                        "clear": "pointerout"
+                    }
+                }
+            ],
+            "mark": {
+                "type": "geoshape",
+                "stroke": "#F7F8F5",
+                "strokeWidth": 1
+            },
+            "encoding": {
+                "shape": {
+                    "field": "geo",
+                    "type": "geojson"
+                },
+                "color": {
+                    "field": "pct_change",
+                    "type": "quantitative",
+                    "title": "Change in applicant (%)",
+                    "scale": {
+                        "domain": [
+                            -12,
+                            -6,
+                            0,
+                            6,
+                            12
+                        ],
+                        "range": [
+                            "#B4533c",
+                            "#DDA793",
+                            "#EFEFEA",
+                            "#6FA3BA",
+                            "#12384A"
+                        ],
+                        "clamp": true
+                    },
+                    "legend": {
+                        "orient": "bottom",
+                        "direction": "horizontal",
+                        "gradientLength": 220,
+                        "values": [
+                            -12,
+                            -6,
+                            0,
+                            6,
+                            12
+                        ],
+                        "labelExpr": "(datum.value > 0 ? '+' : '') + datum.value + '%'",
+                        "titleLimit": 300
+                    }
+                },
+                "strokeWidth": {
+                    "condition": {
+                        "param": "hover",
+                        "empty": false,
+                        "value": 2.5
+                    },
+                    "value": 1
+                },
+                "stroke": {
+                    "condition": {
+                        "param": "hover",
+                        "empty": false,
+                        "value": "#1D2433"
+                    },
+                    "value": "#F7F8F5"
+                },
+                "tooltip": [
+                    {
+                        "field": "state",
+                        "title": "State"
+                    },
+                    {
+                        "field": "applicants",
+                        "type": "quantitative",
+                        "title": "Applicants",
+                        "format": ","
+                    },
+                    {
+                        "field": "prev_applicants",
+                        "type": "quantitative",
+                        "title": "Year before",
+                        "format": ","
+                    },
+                    {
+                        "field": "pct_change",
+                        "type": "quantitative",
+                        "title": "Change (%)",
+                        "format": "+.1f"
+                    }
+                ]
+            }
+        },
+        {
+            "description": "Leader lines from offshore labels to the ACT and Taasmania (too small to label inside)",
+            "data": {
+                "values": [
+                    {
+                        "lon": 149.1,
+                        "lat": -35.3,
+                        "lon2": 152,
+                        "lat2": -35.55
+                    },
+                    {
+                        "lon": 147.3,
+                        "lat": -42,
+                        "lon2": 149.6,
+                        "lat2": -42.4
+                    }
+                ]
+            },
+            "mark": {
+                "type": "rule",
+                "color": "#5A6475",
+                "strokeWidth": 0.8
+            },
+            "encoding": {
+                "longitude": {
+                    "field": "lon",
+                    "type": "quantitative"
+                },
+                "latitude": {
+                    "field": "lat",
+                    "type": "quantitative"
+                },
+                "longitude2": {
+                    "field": "lon2"
+                },
+                "latitude2": {
+                    "field": "lat2"
+                }
+            }
+        },
+        {
+            "description": "State labels: abbreviation plus change; white text on strong colours for contrast",
+            "mark": {
+                "type": "text",
+                "fontSize": 11,
+                "fontWeight": 600,
+                "lineHeight": 13
+            },
+            "encoding": {
+                "longitude": {
+                    "field": "label_lon",
+                    "type": "quantitative"
+                },
+                "latitude": {
+                    "field": "label_lat",
+                    "type": "quantitative"
+                },
+                "text": {
+                    "field": "label_lines"
+                },
+                "color": {
+                    "condition": {
+                        "test": "abs(datum.pct_change) > 8 && datum.abbr !== 'ACT' && datum.abbr !== 'TAS'",
+                        "value": "#FFFFFF"
+                    },
+                    "value": "#1D2433"
+                }
+            },
+            "transform": [
+                {
+                    "calculate": "[datum.abbr, (datum.pct_change > 0 ? '+' : '') + format(datum.pct_change, '.1f') + '%']",
+                    "as": "label_lines"
+                }
+            ]
+        }
+    ]
+}
