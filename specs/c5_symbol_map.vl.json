@@ -2,11 +2,17 @@
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "description": "C5 Proportional symbol map. One circle per city, sized by the number of applicants to universities whose main campus is in that city in 2025, and coloured by the change from 2024 (same colours as the state map). Melbourne draws a quarter of all applicants, far more than Sydney. Australian Catholic University has campuses in several states and is not mapped. Sources: Department of Education, Undergraduate Applications and Offers 2025, Table A10; state boundaries from Natural Earth (public domain).",
     "title": {
-        "text": "One in four applicants chooses a Melboourne university",
+        "text": "One in four applicants chooses a Melbourne university",
         "subtitle": "Applicants by city of the university's main campus, 2025"
     },
     "width": "container",
     "height": 380,
+    "padding": {
+        "left": 5,
+        "top": 5,
+        "bottom": 5,
+        "right": 45
+    },
     "projection": {
         "type": "conicEqualArea",
         "parallels": [
@@ -272,7 +278,7 @@
             "mark": {
                 "type": "text",
                 "align": "right",
-                "dx": -26,
+                "dx": -36,
                 "fontSize": 11,
                 "fontWeight": 600,
                 "color": "#1D2433"
