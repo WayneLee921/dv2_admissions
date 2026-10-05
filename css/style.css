@@ -138,6 +138,8 @@ strong { font-weight: 600; }
 .chart { margin: 0; min-width: 0; }
 .chart.wide { margin-bottom: var(--gap); }
 .chart .vis { width: 100%; } /* Ensures the visualization takes up the full width of its container */
+/* Let Vega specs (like the treemap) measure the full column width */
+.vis .chart-wrapper { width: 100%; }
 figcaption { font-size: 0.82rem; color: var(--ink-2); margin-top: 6px; }
 
 /* placeholder slots for charts not built yet */

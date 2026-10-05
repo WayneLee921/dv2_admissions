@@ -1,0 +1,310 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "description": "C6 Treemap (Vega). Each rectangle is a university, sized by its applicants in 2025 and grouped by university network (Group of Eight, Australian Technology Network, Innovative Research Universities, Regional Universities Network, or no group). Colour shows offers made per 100 applicants: darker means harder to get in. The Group of Eight draws a quarter of applicants but makes the fewest offers per applicant. Built in Vega because Vega-Lite has no treemap layout. Source: Department of Education, Undergraduate Applications and Offers 2025, Table A10; network membership from each network's website.",
+  "title": {
+    "text": "The Group of Eight draws a quarter of applicants, and turns away the most",
+    "subtitle": [
+      "Each rectangle is a university, sized by applicants in 2025 and grouped by university network.",
+      "Darker means fewer offers per applicant: harder to get in."
+    ]
+  },
+  "height": 430,
+  "padding": 5,
+  "autosize": "pad",
+  "signals": [
+    {
+      "description": "Chart width follows the page column, and updates when the window is resized",
+      "name": "width",
+      "init": "isFinite(containerSize()[0]) ? containerSize()[0] - 10 : 900",
+      "on": [
+        {
+          "events": "window:resize",
+          "update": "isFinite(containerSize()[0]) ? containerSize()[0] - 10 : 900"
+        }
+      ]
+    }
+  ],
+  "data": [
+    {
+      "name": "universities",
+      "url": "data/c5_universities.csv",
+      "format": {
+        "type": "csv",
+        "parse": {
+          "applicants_2025": "number",
+          "offers_2025": "number"
+        }
+      },
+      "transform": [
+        {
+          "type": "formula",
+          "as": "offer_rate",
+          "expr": "datum.offers_2025 / datum.applicants_2025 * 100"
+        }
+      ]
+    },
+    {
+      "name": "group_totals",
+      "source": "universities",
+      "transform": [
+        {
+          "type": "aggregate",
+          "groupby": [
+            "uni_group"
+          ],
+          "fields": [
+            "applicants_2025"
+          ],
+          "ops": [
+            "sum"
+          ],
+          "as": [
+            "group_applicants"
+          ]
+        },
+        {
+          "type": "joinaggregate",
+          "fields": [
+            "group_applicants"
+          ],
+          "ops": [
+            "sum"
+          ],
+          "as": [
+            "all_applicants"
+          ]
+        },
+        {
+          "type": "formula",
+          "as": "share",
+          "expr": "datum.group_applicants / datum.all_applicants"
+        }
+      ]
+    },
+    {
+      "name": "tree",
+      "source": "universities",
+      "transform": [
+        {
+          "type": "nest",
+          "keys": [
+            "uni_group"
+          ],
+          "generate": true
+        },
+        {
+          "type": "treemap",
+          "field": "applicants_2025",
+          "sort": {
+            "field": "value",
+            "order": "descending"
+          },
+          "round": true,
+          "method": "squarify",
+          "ratio": 1.4,
+          "paddingInner": 3,
+          "paddingTop": 22,
+          "size": [
+            {
+              "signal": "width"
+            },
+            {
+              "signal": "height"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "groups",
+      "source": "tree",
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "datum.depth === 1"
+        },
+        {
+          "type": "lookup",
+          "from": "group_totals",
+          "key": "uni_group",
+          "fields": [
+            "key"
+          ],
+          "as": [
+            "totals"
+          ]
+        },
+        {
+          "type": "formula",
+          "as": "short_key",
+          "expr": "datum.key === 'Australian Technology Network' ? 'Technology Network' : datum.key === 'Innovative Research Universities' ? 'Innovative Research' : datum.key === 'Regional Universities Network' ? 'Regional' : datum.key"
+        }
+      ]
+    },
+    {
+      "name": "leaves",
+      "source": "tree",
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "!datum.children"
+        }
+      ]
+    }
+  ],
+  "scales": [
+    {
+      "name": "color",
+      "type": "linear",
+      "domain": [
+        55,
+        67.5,
+        80,
+        92.5,
+        105
+      ],
+      "range": [
+        "#12384A",
+        "#1F6F8B",
+        "#5B9AB3",
+        "#A9CBD8",
+        "#E3EEF3"
+      ],
+      "clamp": true
+    }
+  ],
+  "legends": [
+    {
+      "fill": "color",
+      "orient": "bottom",
+      "direction": "horizontal",
+      "title": "Offers per 100 applicants",
+      "titleLimit": 400,
+      "gradientLength": 240,
+      "values": [
+        60,
+        80,
+        100
+      ]
+    }
+  ],
+  "marks": [
+    {
+      "description": "Group header label: network name and its share of all applicants",
+      "type": "text",
+      "from": {
+        "data": "groups"
+      },
+      "encode": {
+        "enter": {
+          "x": {
+            "signal": "datum.x0 + 2"
+          },
+          "y": {
+            "signal": "datum.y0 + 15"
+          },
+          "fontSize": {
+            "value": 12
+          },
+          "fontWeight": {
+            "value": 600
+          },
+          "fill": {
+            "value": "#1D2433"
+          },
+          "limit": {
+            "signal": "datum.x1 - datum.x0 - 4"
+          },
+          "text": {
+            "signal": "datum.short_key + ' ' + format(datum.totals.share, '.0%')"
+          }
+        }
+      }
+    },
+    {
+      "description": "University rectangles: area = applicants, colour = offers per 100 applicants",
+      "type": "rect",
+      "from": {
+        "data": "leaves"
+      },
+      "encode": {
+        "enter": {
+          "x": {
+            "field": "x0"
+          },
+          "y": {
+            "field": "y0"
+          },
+          "x2": {
+            "field": "x1"
+          },
+          "y2": {
+            "field": "y1"
+          },
+          "fill": {
+            "scale": "color",
+            "field": "offer_rate"
+          },
+          "tooltip": {
+            "signal": "{'University': datum.university, 'Network': datum.uni_group, 'Applicants, 2025': format(datum.applicants_2025, ','), 'Offers per 100 applicants': format(datum.offer_rate, '.0f')}"
+          }
+        },
+        "update": {
+          "stroke": {
+            "value": "#F7F8F5"
+          },
+          "strokeWidth": {
+            "value": 1
+          }
+        },
+        "hover": {
+          "stroke": {
+            "value": "#1D2433"
+          },
+          "strokeWidth": {
+            "value": 2
+          }
+        }
+      }
+    },
+    {
+      "description": "University labels, shown only where the rectangle is big enough to hold them",
+      "type": "text",
+      "from": {
+        "data": "leaves"
+      },
+      "interactive": false,
+      "encode": {
+        "enter": {
+          "x": {
+            "signal": "datum.x0 + 5"
+          },
+          "y": {
+            "signal": "datum.y0 + 15"
+          },
+          "fontSize": {
+            "value": 11
+          },
+          "fontWeight": {
+            "value": 600
+          },
+          "lineHeight": {
+            "value": 14
+          },
+          "limit": {
+            "signal": "datum.x1 - datum.x0 - 8"
+          },
+          "text": {
+            "signal": "(datum.y1 - datum.y0) > 34 && (datum.x1 - datum.x0) > 52 ? [datum.label, format(datum.applicants_2025, ',')] : datum.label"
+          },
+          "fill": {
+            "signal": "datum.offer_rate < 82 ? '#FFFFFF' : '#1D2433'"
+          },
+          "opacity": {
+            "signal": "(datum.x1 - datum.x0) > 30 && (datum.y1 - datum.y0) > 20 ? 1 : 0"
+          }
+        }
+      }
+    }
+  ]
+}

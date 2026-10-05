@@ -12,6 +12,7 @@ const CHARTS = {
   c3: "specs/c3_connected_scatter.vl.json",
   c4: "specs/c4_choropleth.vl.json",
   c5: "specs/c5_symbol_map.vl.json",
+  c6: "specs/c6_treemap.vg.json",
 };
 
 const THEME = {
