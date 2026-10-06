@@ -1,0 +1,10 @@
+flow_id,from_stage,from_node,from_order,to_node,to_order,group,applicants
+a1,0,All applicants,1,Not in Year 12,1,Not in Year 12,185204
+a2,0,All applicants,1,Year 12 with an ATAR,2,Year 12 with an ATAR,116455
+a3,0,All applicants,1,Year 12 without an ATAR,3,Year 12 without an ATAR,16970
+b1,1,Not in Year 12,1,Offered a place,1,Not in Year 12,147960
+b2,1,Not in Year 12,1,No offer,2,Not in Year 12,37244
+b3,1,Year 12 with an ATAR,2,Offered a place,1,Year 12 with an ATAR,107924
+b4,1,Year 12 with an ATAR,2,No offer,2,Year 12 with an ATAR,8531
+b5,1,Year 12 without an ATAR,3,Offered a place,1,Year 12 without an ATAR,14295
+b6,1,Year 12 without an ATAR,3,No offer,2,Year 12 without an ATAR,2675

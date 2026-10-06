@@ -14,7 +14,10 @@ const CHARTS = {
   c5: "specs/c5_symbol_map.vl.json",
   c6: "specs/c6_treemap.vg.json",
   c7: "specs/c7_bump.vl.json",
-  c8: "specs/c8_heatmap.vl.json"
+  c8: "specs/c8_heatmap.vl.json",
+  c9: "specs/c9_alluvial.vl.json",
+  c10: "specs/c10_dot_plot.vl.json",
+  c11: "specs/c11_butterfly.vl.json",
 };
 
 const THEME = {

@@ -1,0 +1,281 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "C9 Alluvial diagram. All 318,629 applicants in 2025 split into three groups (not in Year 12; Year 12 with an ATAR; Year 12 without an ATAR), and then into those offered a place and those not. Each ribbon's thickness is the number of applicants. Blue ribbons are applicants whose offer did not depend on an ATAR: they received 60% of all offers. Built from area marks; every position is computed from the counts. Sources: Department of Education, Undergraduate Applications and Offers 2025, Tables A2 and A8.1.",
+  "title": {
+    "text": "Most offers go to people who never used an ATAR",
+    "subtitle": "How 2025's applicants divide, and who received offers. Ribbon thickness shows the number of applicants."
+  },
+  "width": "container",
+  "height": 380,
+  "data": {
+    "url": "data/c9_flows.csv",
+    "format": {
+      "parse": {
+        "from_stage": "number",
+        "from_order": "number",
+        "to_order": "number",
+        "applicants": "number"
+      }
+    }
+  },
+  "transform": [
+    {"calculate": "datum.from_stage + 1", "as": "to_stage"},
+    {
+      "window": [{"op": "sum", "field": "applicants", "as": "src_before_incl"}],
+      "groupby": ["from_stage"],
+      "sort": [{"field": "from_order"}, {"field": "to_order"}],
+      "frame": [null, 0],
+      "ignorePeers": true
+    },
+    {
+      "window": [{"op": "sum", "field": "applicants", "as": "tgt_before_incl"}],
+      "groupby": ["to_stage"],
+      "sort": [{"field": "to_order"}, {"field": "from_order"}],
+      "frame": [null, 0],
+      "ignorePeers": true
+    },
+    {"calculate": "datum.src_before_incl - datum.applicants", "as": "src_before"},
+    {"calculate": "datum.tgt_before_incl - datum.applicants", "as": "tgt_before"},
+    {
+      "calculate": "(datum.from_stage === 0 ? 24000 : datum.from_stage === 1 ? 0 : 12000) + (datum.src_before || 0) + (datum.from_order - 1) * 24000",
+      "as": "src_y0"
+    },
+    {"calculate": "datum.src_y0 + datum.applicants", "as": "src_y1"},
+    {
+      "calculate": "(datum.to_stage === 0 ? 24000 : datum.to_stage === 1 ? 0 : 12000) + (datum.tgt_before || 0) + (datum.to_order - 1) * 24000",
+      "as": "tgt_y0"
+    },
+    {"calculate": "datum.tgt_y0 + datum.applicants", "as": "tgt_y1"}
+  ],
+  "layer": [
+    {
+      "description": "Ribbons: each flow is an area whose edges ease (smoothstep) from source to target",
+      "transform": [
+        {"calculate": "sequence(0, 1.001, 0.05)", "as": "t"},
+        {"flatten": ["t"]},
+        {"calculate": "datum.t * datum.t * (3 - 2 * datum.t)", "as": "s"},
+        {"calculate": "datum.from_stage + 0.025 + datum.t * (1 - 0.05)", "as": "x"},
+        {"calculate": "datum.src_y0 + (datum.tgt_y0 - datum.src_y0) * datum.s", "as": "y0"},
+        {"calculate": "datum.src_y1 + (datum.tgt_y1 - datum.src_y1) * datum.s", "as": "y1"},
+        {
+          "calculate": "datum.from_stage === 0 ? 0.55 : datum.to_node === 'No offer' ? 0.3 : 0.85",
+          "as": "ribbon_opacity"
+        }
+      ],
+      "mark": {"type": "area", "interpolate": "linear"},
+      "encoding": {
+        "x": {
+          "field": "x",
+          "type": "quantitative",
+          "scale": {"domain": [-0.62, 2.62], "nice": false, "zero": false},
+          "axis": null
+        },
+        "y": {
+          "field": "y0",
+          "type": "quantitative",
+          "scale": {"domain": [0, 366629], "reverse": true, "nice": false, "zero": false},
+          "axis": null
+        },
+        "y2": {"field": "y1"},
+        "detail": {"field": "flow_id"},
+        "color": {
+          "field": "group",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Not in Year 12", "Year 12 without an ATAR", "Year 12 with an ATAR"],
+            "range": ["#1F6F8B", "#6FA3BA", "#AEB6BF"]
+          },
+          "legend": null
+        },
+        "opacity": {"field": "ribbon_opacity", "type": "quantitative", "scale": null},
+        "tooltip": [
+          {"field": "from_node", "title": "From"},
+          {"field": "to_node", "title": "To"},
+          {"field": "applicants", "type": "quantitative", "title": "Applicants", "format": ","}
+        ]
+      }
+    },
+    {
+      "description": "Nodes at stages 0 and 1 (positions from their outgoing flows)",
+      "transform": [
+        {
+          "aggregate": [
+            {"op": "min", "field": "src_y0", "as": "y0"},
+            {"op": "max", "field": "src_y1", "as": "y1"},
+            {"op": "sum", "field": "applicants", "as": "n"}
+          ],
+          "groupby": ["from_stage", "from_node"]
+        },
+        {"calculate": "datum.from_stage - 0.025", "as": "x0"},
+        {"calculate": "datum.from_stage + 0.025", "as": "x1"}
+      ],
+      "mark": {"type": "rect"},
+      "encoding": {
+        "x": {
+          "field": "x0",
+          "type": "quantitative",
+          "scale": {"domain": [-0.62, 2.62], "nice": false, "zero": false},
+          "axis": null
+        },
+        "x2": {"field": "x1"},
+        "y": {
+          "field": "y0",
+          "type": "quantitative",
+          "scale": {"domain": [0, 366629], "reverse": true, "nice": false, "zero": false},
+          "axis": null
+        },
+        "y2": {"field": "y1"},
+        "color": {
+          "condition": {"test": "datum.from_stage === 0", "value": "#1D2433"},
+          "field": "from_node",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Not in Year 12", "Year 12 without an ATAR", "Year 12 with an ATAR"],
+            "range": ["#1F6F8B", "#6FA3BA", "#AEB6BF"]
+          },
+          "legend": null
+        }
+      }
+    },
+    {
+      "description": "Nodes at stage 2: offered a place / no offer (positions from incoming flows)",
+      "transform": [
+        {"filter": "datum.from_stage === 1"},
+        {
+          "aggregate": [
+            {"op": "min", "field": "tgt_y0", "as": "y0"},
+            {"op": "max", "field": "tgt_y1", "as": "y1"}
+          ],
+          "groupby": ["to_node"]
+        },
+        {"calculate": "2 - 0.025", "as": "x0"},
+        {"calculate": "2 + 0.025", "as": "x1"}
+      ],
+      "mark": {"type": "rect", "color": "#1D2433"},
+      "encoding": {
+        "x": {
+          "field": "x0",
+          "type": "quantitative",
+          "scale": {"domain": [-0.62, 2.62], "nice": false, "zero": false},
+          "axis": null
+        },
+        "x2": {"field": "x1"},
+        "y": {
+          "field": "y0",
+          "type": "quantitative",
+          "scale": {"domain": [0, 366629], "reverse": true, "nice": false, "zero": false},
+          "axis": null
+        },
+        "y2": {"field": "y1"}
+      }
+    },
+    {
+      "description": "Labels: one table of nodes (built once), then four text layers that each pick their stage",
+      "transform": [
+        {"fold": ["src", "tgt"], "as": ["end", "unused"]},
+        {"calculate": "datum.end === 'src' ? datum.from_stage : datum.to_stage", "as": "stage"},
+        {"calculate": "datum.end === 'src' ? datum.from_node : datum.to_node", "as": "node"},
+        {"calculate": "datum.end === 'src' ? datum.src_y0 : datum.tgt_y0", "as": "ny0"},
+        {"calculate": "datum.end === 'src' ? datum.src_y1 : datum.tgt_y1", "as": "ny1"},
+        {
+          "filter": "(datum.end === 'src' && datum.stage < 2) || (datum.end === 'tgt' && datum.stage === 2)"
+        },
+        {"filter": "!(datum.end === 'src' && datum.stage === 1) || true"},
+        {
+          "aggregate": [
+            {"op": "min", "field": "ny0", "as": "y0"},
+            {"op": "max", "field": "ny1", "as": "y1"}
+          ],
+          "groupby": ["stage", "node"]
+        },
+        {"calculate": "datum.y1 - datum.y0", "as": "n"},
+        {"calculate": "(datum.y0 + datum.y1) / 2", "as": "mid"},
+        {"calculate": "datum.stage === 0 ? -0.025 : datum.stage + 0.025", "as": "label_x"},
+        {
+          "calculate": "datum.node === 'Offered a place' ? [datum.node, format(datum.n, ','), '60% to the blue groups'] : [datum.node, format(datum.n, ',') + (datum.stage === 1 ? '  (' + format(datum.n / 318629, '.0%') + ')' : '')]",
+          "as": "label"
+        }
+      ],
+      "layer": [
+        {
+          "description": "Label halo for stage-1 labels (so text stays readable over ribbons)",
+          "transform": [{"filter": "datum.stage === 1"}],
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "dx": 8,
+            "baseline": "middle",
+            "fontSize": 12,
+            "lineHeight": 15,
+            "fontWeight": 600,
+            "stroke": "#F7F8F5",
+            "strokeWidth": 4,
+            "strokeJoin": "round"
+          },
+          "encoding": {
+            "x": {"field": "label_x", "type": "quantitative"},
+            "y": {"field": "mid", "type": "quantitative"},
+            "text": {"field": "label"}
+          }
+        },
+        {
+          "description": "Stage 1 labels, right of their node",
+          "transform": [{"filter": "datum.stage === 1"}],
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "dx": 8,
+            "baseline": "middle",
+            "fontSize": 12,
+            "lineHeight": 15,
+            "fontWeight": 600
+          },
+          "encoding": {
+            "x": {"field": "label_x", "type": "quantitative"},
+            "y": {"field": "mid", "type": "quantitative"},
+            "text": {"field": "label"},
+            "color": {"value": "#1D2433"}
+          }
+        },
+        {
+          "description": "Stage 0 label, left of the node",
+          "transform": [{"filter": "datum.stage === 0"}],
+          "mark": {
+            "type": "text",
+            "align": "right",
+            "dx": -8,
+            "baseline": "middle",
+            "fontSize": 12,
+            "lineHeight": 15,
+            "fontWeight": 600
+          },
+          "encoding": {
+            "x": {"field": "label_x", "type": "quantitative"},
+            "y": {"field": "mid", "type": "quantitative"},
+            "text": {"field": "label"},
+            "color": {"value": "#1D2433"}
+          }
+        },
+        {
+          "description": "Stage 2 labels, right of their node",
+          "transform": [{"filter": "datum.stage === 2"}],
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "dx": 8,
+            "baseline": "middle",
+            "fontSize": 12,
+            "lineHeight": 15,
+            "fontWeight": 600
+          },
+          "encoding": {
+            "x": {"field": "label_x", "type": "quantitative"},
+            "y": {"field": "mid", "type": "quantitative"},
+            "text": {"field": "label"},
+            "color": {"value": "#1D2433"}
+          }
+        }
+      ]
+    }
+  ]
+}
