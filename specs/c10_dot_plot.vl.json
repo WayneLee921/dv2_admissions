@@ -1,0 +1,106 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "C10 Connected dot plot. Offers per 100 applicants in 2025 for Year 12 applicants (grey) and applicants not in Year 12 (blue), in each state and nationally. Year 12 applicants are more likely to receive an offer everywhere; the gap ranges from 5 points in New South Wales to 31 in Western Australia. States are sorted by the size of the gap. Source: Department of Education, Undergraduate Applications and Offers 2025, Table A2.",
+  "title": {
+    "text": "Year 12 students get more offers in every state",
+    "subtitle": ["Offers per 100 applicants, 2025. The gap is widest in Western Australia."]
+  },
+  "width": "container",
+  "height": 290,
+  "data": {
+    "url": "data/a2_groups_by_state_2025.csv",
+    "format": {"parse": {"applicants": "number", "offers": "number"}}
+  },
+  "transform": [
+    {"filter": "datum.dimension === 'Year 12 status'"},
+    {"calculate": "datum.offers / datum.applicants * 100", "as": "rate"},
+    {
+      "calculate": "datum.group === 'Current Year 12' ? 'Year 12' : 'Not in Year 12'",
+      "as": "applicant_type"
+    },
+    {"calculate": "datum.applicant_type === 'Year 12' ? datum.rate : null", "as": "y12_only"},
+    {"calculate": "datum.applicant_type === 'Not in Year 12' ? datum.rate : null", "as": "non_only"},
+    {
+      "joinaggregate": [
+        {"op": "max", "field": "y12_only", "as": "y12_rate"},
+        {"op": "max", "field": "non_only", "as": "non_rate"}
+      ],
+      "groupby": ["state"]
+    },
+    {"calculate": "datum.y12_rate - datum.non_rate", "as": "gap"},
+    {"calculate": "datum.state === 'Australia' ? 999 : datum.gap", "as": "sort_key"}
+  ],
+  "encoding": {
+    "y": {
+      "field": "state",
+      "type": "nominal",
+      "title": null,
+      "sort": {"field": "sort_key", "order": "descending"},
+      "axis": {
+        "domain": false,
+        "ticks": false,
+        "labelPadding": 8,
+        "labelLimit": 200,
+        "labelFontWeight": {"expr": "datum.value === 'Australia' ? 700 : 400"},
+        "labelExpr": "datum.value === 'Australia' ? 'Australia (all states)' : datum.value === 'Australian Capital Territory' ? 'ACT (Canberra)' : datum.value"
+      }
+    }
+  },
+  "layer": [
+    {
+      "description": "Grey connecting line from the non-Year 12 rate to the Year 12 rate",
+      "transform": [{"filter": "datum.applicant_type === 'Year 12'"}],
+      "mark": {"type": "rule", "color": "#C9D2D9", "strokeWidth": 3},
+      "encoding": {
+        "x": {
+          "field": "non_rate",
+          "type": "quantitative",
+          "title": "Offers per 100 applicants",
+          "scale": {"domain": [60, 106], "nice": false},
+          "axis": {"values": [60, 70, 80, 90, 100], "grid": true, "domain": false}
+        },
+        "x2": {"field": "y12_rate"}
+      }
+    },
+    {
+      "description": "The two dots: blue = not in Year 12 (same blue as the alluvial), grey = Year 12",
+      "mark": {"type": "circle", "size": 110, "opacity": 1, "stroke": "#F7F8F5", "strokeWidth": 1.5},
+      "encoding": {
+        "x": {"field": "rate", "type": "quantitative"},
+        "color": {
+          "field": "applicant_type",
+          "type": "nominal",
+          "title": null,
+          "scale": {"domain": ["Not in Year 12", "Year 12"], "range": ["#1F6F8B", "#7B8592"]},
+          "legend": {"orient": "top", "direction": "horizontal", "symbolType": "circle"}
+        },
+        "tooltip": [
+          {"field": "state", "title": "State"},
+          {"field": "applicant_type", "title": "Applicants"},
+          {"field": "applicants", "type": "quantitative", "title": "Applicants", "format": ","},
+          {"field": "offers", "type": "quantitative", "title": "Offers", "format": ","},
+          {"field": "rate", "type": "quantitative", "title": "Offers per 100", "format": ".0f"}
+        ]
+      }
+    },
+    {
+      "description": "Gap label just right of the Year 12 dot, e.g. '+31'",
+      "transform": [
+        {"filter": "datum.applicant_type === 'Year 12'"},
+        {"calculate": "'+' + format(datum.gap, '.0f')", "as": "gap_label"}
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 10,
+        "fontSize": 11,
+        "fontWeight": 600,
+        "color": "#5A6475"
+      },
+      "encoding": {
+        "x": {"field": "y12_rate", "type": "quantitative"},
+        "text": {"field": "gap_label"}
+      }
+    }
+  ]
+}
