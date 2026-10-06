@@ -13,6 +13,7 @@ const CHARTS = {
   c4: "specs/c4_choropleth.vl.json",
   c5: "specs/c5_symbol_map.vl.json",
   c6: "specs/c6_treemap.vg.json",
+  c7: "specs/c7_bump.vl.json",
 };
 
 const THEME = {

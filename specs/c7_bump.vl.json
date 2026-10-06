@@ -1,0 +1,284 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "C7 Bump chart. Rank of the ten broad fields of education by number of applicants, each year from 2010 to 2025 (1 = most applicants). Fields that climbed between 2010 and 2025 are blue, fields that fell are red, unchanged fields are grey. Health overtook Society and Culture in 2014; Sciences, Engineering and IT climbed, while Creative Arts fell. Source: Department of Education, Undergraduate Applications and Offers 2025, Table A4.1.",
+  "title": {
+    "text": "Health, science and technology climbed the rankings; creative arts fell",
+    "subtitle": "Fields of study ranked by number of applicants each year (1 = most popular). Hover a line to follow it."
+  },
+  "width": "container",
+  "height": 330,
+  "data": {
+    "url": "data/c7_fields.csv",
+    "format": {
+      "parse": {
+        "year": "number",
+        "applicants": "number",
+        "offers": "number"
+      }
+    }
+  },
+  "transform": [
+    {
+      "window": [
+        {
+          "op": "row_number",
+          "as": "rank"
+        }
+      ],
+      "groupby": [
+        "year"
+      ],
+      "sort": [
+        {
+          "field": "applicants",
+          "order": "descending"
+        }
+      ]
+    },
+    {
+      "window": [
+        {
+          "op": "first_value",
+          "field": "rank",
+          "as": "rank_2010"
+        },
+        {
+          "op": "last_value",
+          "field": "rank",
+          "as": "rank_2025"
+        }
+      ],
+      "groupby": [
+        "field"
+      ],
+      "sort": [
+        {
+          "field": "year"
+        }
+      ],
+      "frame": [
+        null,
+        null
+      ]
+    },
+    {
+      "calculate": "datum.rank_2025 < datum.rank_2010 ? 'Climbed' : datum.rank_2025 > datum.rank_2010 ? 'Fell' : 'No change'",
+      "as": "trend"
+    }
+  ],
+  "encoding": {
+    "x": {
+      "field": "year",
+      "type": "quantitative",
+      "title": null,
+      "scale": {
+        "domain": [
+          2003.9,
+          2031.1
+        ],
+        "nice": false,
+        "zero": false
+      },
+      "axis": {
+        "values": [
+          2010,
+          2011,
+          2012,
+          2013,
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024,
+          2025
+        ],
+        "format": "d",
+        "grid": false,
+        "domain": false,
+        "ticks": false,
+        "labelPadding": 8,
+        "labelFontSize": 11
+      }
+    },
+    "y": {
+      "field": "rank",
+      "type": "ordinal",
+      "axis": null
+    },
+    "color": {
+      "field": "trend",
+      "type": "nominal",
+      "title": "Rank from 2010 to 2025",
+      "scale": {
+        "domain": [
+          "Climbed",
+          "Fell",
+          "No change"
+        ],
+        "range": [
+          "#1F6F8B",
+          "#B4533C",
+          "#6B7480"
+        ]
+      },
+      "legend": {
+        "orient": "top",
+        "direction": "horizontal",
+        "symbolType": "stroke",
+        "symbolStrokeWidth": 3,
+        "titleLimit": 300
+      }
+    },
+    "opacity": {
+      "condition": {
+        "param": "hover_field",
+        "empty": true,
+        "value": 1
+      },
+      "value": 0.15
+    }
+  },
+  "layer": [
+    {
+      "description": "One line per field, joining its rank year to year",
+      "params": [
+        {
+          "name": "hover_field",
+          "select": {
+            "type": "point",
+            "fields": [
+              "field"
+            ],
+            "on": "pointerover",
+            "clear": "pointerout"
+          }
+        }
+      ],
+      "mark": {
+        "type": "line",
+        "strokeWidth": 3,
+        "interpolate": "monotone",
+        "strokeCap": "round"
+      },
+      "encoding": {
+        "detail": {
+          "field": "field"
+        },
+        "order": {
+          "field": "year"
+        }
+      }
+    },
+    {
+      "description": "A dot for every year, with the exact numbers in the tooltip",
+      "mark": {
+        "type": "circle",
+        "size": 55,
+        "opacity": 1,
+        "stroke": "#F7F8F5",
+        "strokeWidth": 1.5
+      },
+      "encoding": {
+        "tooltip": [
+          {
+            "field": "field",
+            "title": "Field"
+          },
+          {
+            "field": "year",
+            "type": "ordinal",
+            "title": "Year"
+          },
+          {
+            "field": "rank",
+            "type": "quantitative",
+            "title": "Rank"
+          },
+          {
+            "field": "applicants",
+            "type": "quantitative",
+            "title": "Applicants",
+            "format": ","
+          }
+        ]
+      }
+    },
+    {
+      "description": "Field names on the left, at their 2010 position",
+      "transform": [
+        {
+          "filter": "datum.year === 2010"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "dx": -12,
+        "fontSize": 12,
+        "fontWeight": 600
+      },
+      "encoding": {
+        "text": {
+          "field": "field_short"
+        }
+      }
+    },
+    {
+      "description": "Field names on the right, at their 2025 position",
+      "transform": [
+        {
+          "filter": "datum.year === 2025"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 12,
+        "fontSize": 12,
+        "fontWeight": 600
+      },
+      "encoding": {
+        "text": {
+          "field": "field_short"
+        }
+      }
+    },
+    {
+      "description": "Annotation at the key crossover: Health overtakes Society & culture in 2014",
+      "data": {
+        "values": [
+          {
+            "year": 2014,
+            "rank": 1,
+            "note": "2014: Health overtakes Society & culture"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": -4,
+        "dy": -16,
+        "fontSize": 11,
+        "fontStyle": "italic"
+      },
+      "encoding": {
+        "text": {
+          "field": "note"
+        },
+        "color": {
+          "value": "#5A6475"
+        },
+        "opacity": {
+          "value": 1
+        }
+      }
+    }
+  ]
+}

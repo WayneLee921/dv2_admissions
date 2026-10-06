@@ -1,0 +1,161 @@
+field,field_short,year,applicants,offers
+Natural and Physical Sciences,Sciences,2010,21493,21873
+Natural and Physical Sciences,Sciences,2011,23866,23575
+Natural and Physical Sciences,Sciences,2012,26373,25625
+Natural and Physical Sciences,Sciences,2013,27376,27386
+Natural and Physical Sciences,Sciences,2014,29423,28197
+Natural and Physical Sciences,Sciences,2015,28958,28734
+Natural and Physical Sciences,Sciences,2016,30749,29982
+Natural and Physical Sciences,Sciences,2017,32210,31326
+Natural and Physical Sciences,Sciences,2018,31157,30092
+Natural and Physical Sciences,Sciences,2019,31856,30985
+Natural and Physical Sciences,Sciences,2020,32171,30552
+Natural and Physical Sciences,Sciences,2021,32595,31225
+Natural and Physical Sciences,Sciences,2022,33337,30743
+Natural and Physical Sciences,Sciences,2023,29728,27349
+Natural and Physical Sciences,Sciences,2024,30249,27824
+Natural and Physical Sciences,Sciences,2025,32220,30291
+Information Technology,IT,2010,7742,6766
+Information Technology,IT,2011,8426,7416
+Information Technology,IT,2012,8178,7029
+Information Technology,IT,2013,8447,7243
+Information Technology,IT,2014,8781,7827
+Information Technology,IT,2015,9094,7899
+Information Technology,IT,2016,9501,8062
+Information Technology,IT,2017,10404,8719
+Information Technology,IT,2018,10402,8819
+Information Technology,IT,2019,10460,8939
+Information Technology,IT,2020,11080,9521
+Information Technology,IT,2021,11599,10013
+Information Technology,IT,2022,11721,10273
+Information Technology,IT,2023,13332,11529
+Information Technology,IT,2024,13802,11831
+Information Technology,IT,2025,12312,10770
+Engineering and Related Technologies,Engineering,2010,17212,14532
+Engineering and Related Technologies,Engineering,2011,18510,15527
+Engineering and Related Technologies,Engineering,2012,19344,16309
+Engineering and Related Technologies,Engineering,2013,20747,17755
+Engineering and Related Technologies,Engineering,2014,20008,17275
+Engineering and Related Technologies,Engineering,2015,19650,17289
+Engineering and Related Technologies,Engineering,2016,18849,16251
+Engineering and Related Technologies,Engineering,2017,19597,16628
+Engineering and Related Technologies,Engineering,2018,19538,16998
+Engineering and Related Technologies,Engineering,2019,18744,15881
+Engineering and Related Technologies,Engineering,2020,18402,16190
+Engineering and Related Technologies,Engineering,2021,19166,17248
+Engineering and Related Technologies,Engineering,2022,19397,16963
+Engineering and Related Technologies,Engineering,2023,20298,17800
+Engineering and Related Technologies,Engineering,2024,22050,19855
+Engineering and Related Technologies,Engineering,2025,23944,21547
+Architecture and Building,Architecture & building,2010,9504,6523
+Architecture and Building,Architecture & building,2011,10106,6900
+Architecture and Building,Architecture & building,2012,9554,6885
+Architecture and Building,Architecture & building,2013,8792,6562
+Architecture and Building,Architecture & building,2014,8439,6500
+Architecture and Building,Architecture & building,2015,8709,6780
+Architecture and Building,Architecture & building,2016,8668,6932
+Architecture and Building,Architecture & building,2017,9611,7278
+Architecture and Building,Architecture & building,2018,9356,7460
+Architecture and Building,Architecture & building,2019,9845,7659
+Architecture and Building,Architecture & building,2020,9490,7672
+Architecture and Building,Architecture & building,2021,9749,7874
+Architecture and Building,Architecture & building,2022,9021,7175
+Architecture and Building,Architecture & building,2023,8886,7160
+Architecture and Building,Architecture & building,2024,9227,7613
+Architecture and Building,Architecture & building,2025,9811,8044
+"Agriculture, Environmental and Related Studies",Agriculture & environment,2010,5126,4860
+"Agriculture, Environmental and Related Studies",Agriculture & environment,2011,5157,4821
+"Agriculture, Environmental and Related Studies",Agriculture & environment,2012,5084,4854
+"Agriculture, Environmental and Related Studies",Agriculture & environment,2013,5578,5331
+"Agriculture, Environmental and Related Studies",Agriculture & environment,2014,5293,5015
+"Agriculture, Environmental and Related Studies",Agriculture & environment,2015,4513,4136
+"Agriculture, Environmental and Related Studies",Agriculture & environment,2016,4623,4194
+"Agriculture, Environmental and Related Studies",Agriculture & environment,2017,4530,4064
+"Agriculture, Environmental and Related Studies",Agriculture & environment,2018,4558,4058
+"Agriculture, Environmental and Related Studies",Agriculture & environment,2019,4417,3981
+"Agriculture, Environmental and Related Studies",Agriculture & environment,2020,4685,4347
+"Agriculture, Environmental and Related Studies",Agriculture & environment,2021,5080,4400
+"Agriculture, Environmental and Related Studies",Agriculture & environment,2022,5733,5299
+"Agriculture, Environmental and Related Studies",Agriculture & environment,2023,4750,4380
+"Agriculture, Environmental and Related Studies",Agriculture & environment,2024,4691,4314
+"Agriculture, Environmental and Related Studies",Agriculture & environment,2025,4739,4475
+Health,Health,2010,60064,41399
+Health,Health,2011,62932,43384
+Health,Health,2012,66506,46995
+Health,Health,2013,69714,49940
+Health,Health,2014,74999,55025
+Health,Health,2015,82443,60215
+Health,Health,2016,87468,64451
+Health,Health,2017,89946,65153
+Health,Health,2018,87493,65377
+Health,Health,2019,87247,63576
+Health,Health,2020,87423,64183
+Health,Health,2021,99958,69223
+Health,Health,2022,85850,60744
+Health,Health,2023,81324,59525
+Health,Health,2024,81376,61031
+Health,Health,2025,86525,63600
+Education,Education,2010,32092,24650
+Education,Education,2011,29757,23747
+Education,Education,2012,30842,25128
+Education,Education,2013,30883,25647
+Education,Education,2014,29974,25469
+Education,Education,2015,29409,25316
+Education,Education,2016,28412,23718
+Education,Education,2017,29089,24113
+Education,Education,2018,26803,21965
+Education,Education,2019,26491,21968
+Education,Education,2020,26311,21637
+Education,Education,2021,26958,22131
+Education,Education,2022,28428,24069
+Education,Education,2023,26588,22444
+Education,Education,2024,25832,22366
+Education,Education,2025,28819,25056
+Management and Commerce,Management & commerce,2010,40091,33851
+Management and Commerce,Management & commerce,2011,41302,35801
+Management and Commerce,Management & commerce,2012,41618,36156
+Management and Commerce,Management & commerce,2013,41895,37923
+Management and Commerce,Management & commerce,2014,42723,38236
+Management and Commerce,Management & commerce,2015,44754,40655
+Management and Commerce,Management & commerce,2016,44801,40316
+Management and Commerce,Management & commerce,2017,43682,38728
+Management and Commerce,Management & commerce,2018,43542,39399
+Management and Commerce,Management & commerce,2019,39579,36353
+Management and Commerce,Management & commerce,2020,36980,33790
+Management and Commerce,Management & commerce,2021,34653,30932
+Management and Commerce,Management & commerce,2022,32718,29992
+Management and Commerce,Management & commerce,2023,31754,28691
+Management and Commerce,Management & commerce,2024,33161,30203
+Management and Commerce,Management & commerce,2025,36003,32946
+Society and Culture,Society & culture,2010,68299,58025
+Society and Culture,Society & culture,2011,68641,59787
+Society and Culture,Society & culture,2012,70467,63262
+Society and Culture,Society & culture,2013,71875,64710
+Society and Culture,Society & culture,2014,74885,64389
+Society and Culture,Society & culture,2015,76377,65935
+Society and Culture,Society & culture,2016,77002,66958
+Society and Culture,Society & culture,2017,77557,66470
+Society and Culture,Society & culture,2018,74530,64206
+Society and Culture,Society & culture,2019,76110,66704
+Society and Culture,Society & culture,2020,76795,66626
+Society and Culture,Society & culture,2021,79305,69504
+Society and Culture,Society & culture,2022,70705,62098
+Society and Culture,Society & culture,2023,63832,56013
+Society and Culture,Society & culture,2024,62682,55796
+Society and Culture,Society & culture,2025,65826,58364
+Creative Arts,Creative arts,2010,29933,21179
+Creative Arts,Creative arts,2011,30614,21873
+Creative Arts,Creative arts,2012,29425,22013
+Creative Arts,Creative arts,2013,29406,23043
+Creative Arts,Creative arts,2014,28881,22662
+Creative Arts,Creative arts,2015,28318,22445
+Creative Arts,Creative arts,2016,29907,23634
+Creative Arts,Creative arts,2017,28786,22499
+Creative Arts,Creative arts,2018,26608,20985
+Creative Arts,Creative arts,2019,25812,20233
+Creative Arts,Creative arts,2020,23891,18898
+Creative Arts,Creative arts,2021,22798,18038
+Creative Arts,Creative arts,2022,20276,16196
+Creative Arts,Creative arts,2023,19618,15660
+Creative Arts,Creative arts,2024,19180,15390
+Creative Arts,Creative arts,2025,18393,15050
