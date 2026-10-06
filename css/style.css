@@ -172,10 +172,25 @@ figcaption { font-size: 0.82rem; color: var(--ink-2); margin-top: 6px; }
 .prose { font-size: 1.05rem; align-self: center;}
 .pull {
   margin: 0;
+  align-self: center;
   font-family: var(--serif);
   font-size: 1.6rem;
   line-height: 1.3;
-  color: var(--au-dark);
+  color: var(--au-dark)
+}
+.pull p {margin: 0; max-width: 26ch;}
+.pull-figure{
+  display: block;
+  font-size: 5rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 0.3rem;
+}
+.pull footer{
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  color: var(--ink-2);
+  margin-top: 1rem;
 }
 
 /* ---------- footer ---------- */

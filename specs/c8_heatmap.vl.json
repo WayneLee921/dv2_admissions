@@ -1,0 +1,186 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "C8 Heatmap. Offers per 100 Year 12 applicants in 2025, by state of the universities applied to (columns) and ATAR band (rows). Above an ATAR of 70 al most everyone gets an offer in every state; below 50, the chance ranges from 18 per 100 in the ACT to 98 in Tasmania. Darker means fewer offers per applicant, using the same colours as the university treemap. Source: Department of Education, Undergraduate Applications and Offers 2025, Table A8.1.",
+    "title": {
+        "text": "Above an ATAR of 70, almost everyone gets in",
+        "subtitle": [
+            "Offers per 100 Year 12 applicants, 2025",
+            "Below 50, your chances depend on the state."
+        ]
+    },
+    "width": "container",
+    "height": 260,
+    "data": {
+        "url": "data/c8_atar_by_state.csv",
+        "format": {
+            "parse": {
+                "state_order": "number",
+                "band_order": "number",
+                "applicants": "number",
+                "offers": "number"
+            }
+        }
+    },
+    "transform": [
+        {
+            "calculate": "datum.offers / datum.applicants * 100",
+            "as": "offer_rate"
+        }
+    ],
+    "encoding": {
+        "x": {
+            "field": "state",
+            "type": "nominal",
+            "sort": {
+                "field": "state_order"
+            },
+            "title": null,
+            "axis": {
+                "orient": "top",
+                "labelAngle": 0,
+                "domain": false,
+                "ticks": false,
+                "labelFontWeight": 600
+            }
+        },
+        "y": {
+            "field": "atar_band",
+            "type": "nominal",
+            "sort": {
+                "field": "band_order",
+                "order": "descending"
+            },
+            "title": "ATAR",
+            "axis": {
+                "domain": false,
+                "ticks": false,
+                "titleAngle": 0,
+                "titleAlign": "right",
+                "titleY": -8,
+                "titleX": -6
+            }
+        }
+    },
+    "layer": [
+        {
+            "description": "Cells couloured by offers per 100 applicants (same scale as the treemap)",
+            "params": [
+                {
+                    "name": "hover_cell",
+                    "select": {
+                        "type": "point",
+                        "fields": [
+                          "state",
+                          "atar_band"
+                        ],
+                        "on": "pointerover",
+                        "clear": "pointerout"
+                    }
+                }
+            ],
+            "mark": {
+                "type": "rect",
+                "stroke": "#F7F8F5",
+                "strokeWidth": 2,
+                "cornerRadius": 2
+            },
+            "encoding": {
+                "color": {
+                "field": "offer_rate",
+                "type": "quantitative",
+                "title": "Offers per 100 applicants",
+                "scale": {
+                    "domain": [
+                    55,
+                    67.5,
+                    80,
+                    92.5,
+                    105
+                    ],
+                    "range": [
+                    "#12384A",
+                    "#1F6F8B",
+                    "#5B9AB3",
+                    "#A9CBD8",
+                    "#E3EEF3"
+                    ],
+                    "clamp": true
+                },
+                "legend": {
+                    "orient": "bottom",
+                    "direction": "horizontal",
+                    "gradientLength": 200,
+                    "values": [
+                    60,
+                    80,
+                    100
+                    ],
+                    "titleLimit": 300
+                }
+                },
+                "stroke": {
+                "condition": {
+                    "param": "hover_cell",
+                    "empty": false,
+                    "value": "#1D2433"
+                },
+                "value": "#F7F8F5"
+                },
+                "tooltip": [
+                {
+                    "field": "state",
+                    "title": "State"
+                },
+                {
+                    "field": "atar_band",
+                    "title": "ATAR"
+                },
+                {
+                    "field": "applicants",
+                    "type": "quantitative",
+                    "title": "Year 12 applicants",
+                    "format": ","
+                },
+                {
+                    "field": "offers",
+                    "type": "quantitative",
+                    "title": "Offers",
+                    "format": ","
+                },
+                {
+                    "field": "offer_rate",
+                    "type": "quantitative",
+                    "title": "Offers per 100 applicants",
+                    "format": ".0f"
+                }
+                ]
+            }
+            },
+            {
+            "description": "The number in each cell, white on dark cells; small groups (under 50 applicants) marked with an asterisk",
+            "mark": {
+                "type": "text",
+                "fontSize": 12,
+                "fontWeight": 600
+            },
+            "encoding": {
+                "text": {
+                "field": "cell_label"
+                },
+                "color": {
+                "condition": {
+                    "test": "datum.offer_rate < 80",
+                    "value": "#FFFFFF"
+                },
+                "value": "#1D2433"
+                }
+            },
+            "transform": [
+                {
+                "calculate": "format(datum.offer_rate, '.0f') + (datum.applicants < 50 ? '*' : '')",
+                "as": "cell_label"
+                }
+            ]
+            }
+        ]
+}
