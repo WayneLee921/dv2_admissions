@@ -1,0 +1,113 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "C12 Small multiples. Offers per 100 applicants in each broad field of education, 2010 to 2025, one panel per field, sorted from hardest to easiest to enter in 2025. The dashed line in every panel is the average for all fields. Health, the most popular field, has been the hardest to enter throughout; most other fields became easier. Source: Department of Education, Undergraduate Applications and Offers 2025, Table A4.1.",
+  "title": {
+    "text": "The most popular field is also the hardest to get into",
+    "subtitle": "Offers per 100 applicants, 2010–2025, by field. Dashed line: all fields. Panels run from hardest to easiest in 2025."
+  },
+  "data": {
+    "url": "data/c7_fields.csv",
+    "format": {"parse": {"year": "number", "applicants": "number", "offers": "number"}}
+  },
+  "transform": [
+    {"calculate": "datum.offers / datum.applicants * 100", "as": "rate"},
+    {
+      "joinaggregate": [
+        {"op": "sum", "field": "applicants", "as": "all_applicants"},
+        {"op": "sum", "field": "offers", "as": "all_offers"}
+      ],
+      "groupby": ["year"]
+    },
+    {"calculate": "datum.all_offers / datum.all_applicants * 100", "as": "all_rate"},
+    {"calculate": "datum.year === 2025 ? datum.rate : null", "as": "rate_2025_only"},
+    {
+      "joinaggregate": [{"op": "max", "field": "rate_2025_only", "as": "rate_2025"}],
+      "groupby": ["field_short"]
+    }
+  ],
+  "facet": {
+    "field": "field_short",
+    "type": "nominal",
+    "title": null,
+    "sort": {"field": "rate_2025", "op": "max", "order": "ascending"},
+    "header": {
+      "labelFontSize": 12,
+      "labelFontWeight": 600,
+      "labelColor": "#1D2433",
+      "labelAnchor": "start",
+      "labelPadding": 4,
+      "labelLimit": 185
+    }
+  },
+  "columns": 5,
+  "spacing": {"row": 22, "column": 18},
+  "spec": {
+    "width": 160,
+    "height": 95,
+    "encoding": {
+      "x": {
+        "field": "year",
+        "type": "quantitative",
+        "title": null,
+        "scale": {"domain": [2010, 2025], "nice": false},
+        "axis": {"values": [2010, 2025], "format": "d", "grid": false, "labelFlush": true}
+      },
+      "y": {
+        "type": "quantitative",
+        "title": null,
+        "scale": {"domain": [60, 105], "nice": false},
+        "axis": {"values": [60, 80, 100], "grid": true, "domain": false, "ticks": false}
+      }
+    },
+    "layer": [
+      {
+        "description": "Average for all fields (same in every panel): the reference line",
+        "mark": {"type": "line", "color": "#9AA3AE", "strokeDash": [4, 3], "strokeWidth": 1.2},
+        "encoding": {"y": {"field": "all_rate"}}
+      },
+      {
+        "description": "This field's offer rate; Health highlighted in red",
+        "mark": {"type": "line", "strokeWidth": 2.2},
+        "encoding": {
+          "y": {"field": "rate"},
+          "color": {
+            "condition": {"test": "datum.field_short === 'Health'", "value": "#B4533C"},
+            "value": "#1F6F8B"
+          },
+          "tooltip": [
+            {"field": "field_short", "title": "Field"},
+            {"field": "year", "type": "ordinal", "title": "Year"},
+            {"field": "rate", "type": "quantitative", "title": "Offers per 100", "format": ".0f"},
+            {"field": "applicants", "type": "quantitative", "title": "Applicants", "format": ","}
+          ]
+        }
+      },
+      {
+        "description": "Hover target: invisible wide dots so the tooltip is easy to trigger",
+        "mark": {"type": "circle", "size": 120, "opacity": 0},
+        "encoding": {
+          "y": {"field": "rate"},
+          "tooltip": [
+            {"field": "field_short", "title": "Field"},
+            {"field": "year", "type": "ordinal", "title": "Year"},
+            {"field": "rate", "type": "quantitative", "title": "Offers per 100", "format": ".0f"},
+            {"field": "applicants", "type": "quantitative", "title": "Applicants", "format": ","}
+          ]
+        }
+      },
+      {
+        "description": "2025 value labelled at the end of each line",
+        "transform": [{"filter": "datum.year === 2025"}],
+        "mark": {"type": "text", "align": "right", "dy": -9, "fontSize": 11, "fontWeight": 600},
+        "encoding": {
+          "y": {"field": "rate"},
+          "text": {"field": "rate", "type": "quantitative", "format": ".0f"},
+          "color": {
+            "condition": {"test": "datum.field_short === 'Health'", "value": "#B4533C"},
+            "value": "#1F6F8B"
+          }
+        }
+      }
+    ]
+  }
+}

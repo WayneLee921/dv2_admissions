@@ -18,6 +18,7 @@ const CHARTS = {
   c9: "specs/c9_alluvial.vl.json",
   c10: "specs/c10_dot_plot.vl.json",
   c11: "specs/c11_butterfly.vl.json",
+  c12: "specs/c12_small_multiples.vl.json",
 };
 
 const THEME = {
