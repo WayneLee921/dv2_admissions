@@ -1,0 +1,147 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "C11 Butterfly chart. Year 12 applicants in 2025 from low and high socio-economic status (SES) areas, showing what share of each group fell in each ATAR band. 38% of high-SES applicants had an ATAR above 90, against 14% of low-SES applicants; 17% of low-SES applicants had 50 or less, against 4% of high-SES applicants. Shares are used because the two groups differ in size. Source: Department of Education, Undergraduate Applications and Offers 2025, Table A9.1.",
+  "title": {
+    "text": "Where you live shapes your ATAR",
+    "subtitle": [
+      "Share of Year 12 applicants in each ATAR band, 2025,",
+      "by socio-economic status (SES) of their home area"
+    ]
+  },
+  "data": {
+    "url": "data/c11_atar_by_ses.csv",
+    "format": {"parse": {"band_order": "number", "applicants": "number", "offers": "number"}}
+  },
+  "transform": [
+    {"filter": "datum.ses !== 'Medium SES'"},
+    {
+      "joinaggregate": [{"op": "sum", "field": "applicants", "as": "group_total"}],
+      "groupby": ["ses"]
+    },
+    {"calculate": "datum.applicants / datum.group_total", "as": "share"}
+  ],
+  "spacing": 0,
+  "hconcat": [
+    {
+      "description": "Low SES: share of the group's Year 12 applicants in each ATAR band",
+      "title": {"text": "Low SES", "fontSize": 13, "anchor": "end", "color": "#3D7D97"},
+      "width": 185,
+      "transform": [{"filter": "datum.ses === 'Low SES'"}],
+      "encoding": {
+        "y": {
+          "field": "atar_band",
+          "type": "nominal",
+          "sort": ["Above 90", "80–90", "70–80", "60–70", "50–60", "50 or less"],
+          "axis": null,
+          "title": null
+        },
+        "x": {
+          "field": "share",
+          "type": "quantitative",
+          "axis": null,
+          "scale": {"domain": [0, 0.45], "reverse": true}
+        }
+      },
+      "layer": [
+        {
+          "mark": {"type": "bar", "color": "#6FA3BA", "cornerRadius": 2, "height": {"band": 0.75}},
+          "encoding": {
+            "tooltip": [
+              {"field": "ses", "title": "Group"},
+              {"field": "atar_band", "title": "ATAR"},
+              {
+                "field": "applicants",
+                "type": "quantitative",
+                "title": "Year 12 applicants",
+                "format": ","
+              },
+              {"field": "share", "type": "quantitative", "title": "Share of group", "format": ".0%"}
+            ]
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "right",
+            "dx": -4,
+            "fontSize": 11,
+            "fontWeight": 600,
+            "color": "#1D2433"
+          },
+          "encoding": {"text": {"field": "share", "type": "quantitative", "format": ".0%"}}
+        }
+      ],
+      "height": 210
+    },
+    {
+      "description": "ATAR band labels down the middle",
+      "width": 72,
+      "transform": [{"filter": "datum.ses === 'Low SES'"}],
+      "title": {"text": "ATAR", "fontSize": 13, "anchor": "middle", "color": "#5A6475"},
+      "mark": {"type": "text", "fontSize": 12, "fontWeight": 600, "color": "#1D2433"},
+      "encoding": {
+        "y": {
+          "field": "atar_band",
+          "type": "nominal",
+          "sort": ["Above 90", "80–90", "70–80", "60–70", "50–60", "50 or less"],
+          "axis": null,
+          "title": null
+        },
+        "text": {"field": "atar_band"}
+      },
+      "height": 210
+    },
+    {
+      "description": "High SES: share of the group's Year 12 applicants in each ATAR band",
+      "title": {"text": "High SES", "fontSize": 13, "anchor": "start", "color": "#12384A"},
+      "width": 185,
+      "transform": [{"filter": "datum.ses === 'High SES'"}],
+      "encoding": {
+        "y": {
+          "field": "atar_band",
+          "type": "nominal",
+          "sort": ["Above 90", "80–90", "70–80", "60–70", "50–60", "50 or less"],
+          "axis": null,
+          "title": null
+        },
+        "x": {
+          "field": "share",
+          "type": "quantitative",
+          "axis": null,
+          "scale": {"domain": [0, 0.45], "reverse": false}
+        }
+      },
+      "layer": [
+        {
+          "mark": {"type": "bar", "color": "#12384A", "cornerRadius": 2, "height": {"band": 0.75}},
+          "encoding": {
+            "tooltip": [
+              {"field": "ses", "title": "Group"},
+              {"field": "atar_band", "title": "ATAR"},
+              {
+                "field": "applicants",
+                "type": "quantitative",
+                "title": "Year 12 applicants",
+                "format": ","
+              },
+              {"field": "share", "type": "quantitative", "title": "Share of group", "format": ".0%"}
+            ]
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "dx": 4,
+            "fontSize": 11,
+            "fontWeight": 600,
+            "color": "#1D2433"
+          },
+          "encoding": {"text": {"field": "share", "type": "quantitative", "format": ".0%"}}
+        }
+      ],
+      "height": 210
+    }
+  ],
+  "config": {"view": {"stroke": null}}
+}
