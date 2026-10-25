@@ -44,7 +44,7 @@
       },
       "layer": [
         {
-          "mark": {"type": "bar", "color": "#9D82D5", "cornerRadius": 2, "height": {"band": 0.75}},
+                    "mark": {"type": "bar", "color": "#9D82B5", "cornerRadius": 2, "height": {"band": 0.75}},
           "encoding": {
             "tooltip": [
               {"field": "ses", "title": "Group"},

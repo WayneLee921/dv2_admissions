@@ -15,7 +15,7 @@ js/main.js            chart registry and shared Vega-Lite / Vega theme
 specs/                one spec per chart: c1 to c13 (.vl.json = Vega-Lite, .vg.json = Vega)
 data/                 CSV and TopoJSON files loaded by the specs
 data/raw/             original source files, unaltered
-sketch/sketch.pdf     scanned hand-drawn sketch
+DV2_Sketch.pdf        scanned hand-drawn sketch (PDF)
 ```
 
 ## Run locally
