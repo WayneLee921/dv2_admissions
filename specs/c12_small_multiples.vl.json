@@ -3,7 +3,7 @@
   "description": "C12 Small multiples. Offers per 100 applicants in each broad field of education, 2010 to 2025, one panel per field, sorted from hardest to easiest to enter in 2025. The dashed line in every panel is the average for all fields. Health, the most popular field, has been the hardest to enter throughout; most other fields became easier. Source: Department of Education, Undergraduate Applications and Offers 2025, Table A4.1.",
   "title": {
     "text": "The most popular field is also the hardest to get into",
-    "subtitle": "Offers per 100 applicants, 2010–2025, by field. Dashed line: all fields. Panels run from hardest to easiest in 2025."
+        "subtitle": "Offers per 100 applicants, 2010–2025, by field. Health, the most popular field, is drawn in black. Dashed line: all fields. Panels run from hardest to easiest in 2025."
   },
   "data": {
     "url": "data/c7_fields.csv",
@@ -66,13 +66,17 @@
         "encoding": {"y": {"field": "all_rate"}}
       },
       {
-        "description": "This field's offer rate; Health highlighted in red",
-        "mark": {"type": "line", "strokeWidth": 2.2},
+        "description": "This field's offer rate; Health highlighted in ink black with a thicker line",
+        "mark": {"type": "line"},
         "encoding": {
           "y": {"field": "rate"},
           "color": {
-            "condition": {"test": "datum.field_short === 'Health'", "value": "#B4533C"},
+            "condition": {"test": "datum.field_short === 'Health'", "value": "#1D2433"},
             "value": "#1F6F8B"
+          },
+          "strokeWidth": {
+            "condition": {"test": "datum.field_short === 'Health'", "value": 3.2},
+            "value": 2
           },
           "tooltip": [
             {"field": "field_short", "title": "Field"},
@@ -103,7 +107,7 @@
           "y": {"field": "rate"},
           "text": {"field": "rate", "type": "quantitative", "format": ".0f"},
           "color": {
-            "condition": {"test": "datum.field_short === 'Health'", "value": "#B4533C"},
+                        "condition": {"test": "datum.field_short === 'Health'", "value": "#1D2433"},
             "value": "#1F6F8B"
           }
         }
