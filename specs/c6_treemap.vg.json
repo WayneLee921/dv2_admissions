@@ -188,121 +188,68 @@
       ]
     }
   ],
-  "marks": [
+    "marks": [
     {
       "description": "Group header label: network name and its share of all applicants",
       "type": "text",
-      "from": {
-        "data": "groups"
-      },
+      "from": { "data": "groups" },
       "encode": {
         "enter": {
-          "x": {
-            "signal": "datum.x0 + 2"
-          },
-          "y": {
-            "signal": "datum.y0 + 15"
-          },
-          "fontSize": {
-            "value": 12
-          },
-          "fontWeight": {
-            "value": 600
-          },
-          "fill": {
-            "value": "#1D2433"
-          },
-          "limit": {
-            "signal": "datum.x1 - datum.x0 - 4"
-          },
-          "text": {
-            "signal": "datum.short_key + ' ' + format(datum.totals.share, '.0%')"
-          }
+          "fontSize": { "value": 12 },
+          "fontWeight": { "value": 600 },
+          "fill": { "value": "#1D2433" }
+        },
+        "update": {
+          "x": { "signal": "datum.x0 + 2" },
+          "y": { "signal": "datum.y0 + 15" },
+          "limit": { "signal": "datum.x1 - datum.x0 - 4" },
+          "text": { "signal": "datum.short_key + ' ' + format(datum.totals.share, '.0%')" }
         }
       }
     },
     {
       "description": "University rectangles: area = applicants, colour = offers per 100 applicants",
       "type": "rect",
-      "from": {
-        "data": "leaves"
-      },
+      "from": { "data": "leaves" },
       "encode": {
         "enter": {
-          "x": {
-            "field": "x0"
-          },
-          "y": {
-            "field": "y0"
-          },
-          "x2": {
-            "field": "x1"
-          },
-          "y2": {
-            "field": "y1"
-          },
-          "fill": {
-            "scale": "color",
-            "field": "offer_rate"
-          },
+          "fill": { "scale": "color", "field": "offer_rate" },
           "tooltip": {
             "signal": "{'University': datum.university, 'Network': datum.uni_group, 'Applicants, 2025': format(datum.applicants_2025, ','), 'Offers per 100 applicants': format(datum.offer_rate, '.0f')}"
           }
         },
         "update": {
-          "stroke": {
-            "value": "#F7F8F5"
-          },
-          "strokeWidth": {
-            "value": 1
-          }
+          "x": { "field": "x0" },
+          "y": { "field": "y0" },
+          "x2": { "field": "x1" },
+          "y2": { "field": "y1" },
+          "stroke": { "value": "#F7F8F5" },
+          "strokeWidth": { "value": 1 }
         },
         "hover": {
-          "stroke": {
-            "value": "#1D2433"
-          },
-          "strokeWidth": {
-            "value": 2
-          }
+          "stroke": { "value": "#1D2433" },
+          "strokeWidth": { "value": 2 }
         }
       }
     },
     {
       "description": "University labels, shown only where the rectangle is big enough to hold them",
       "type": "text",
-      "from": {
-        "data": "leaves"
-      },
+      "from": { "data": "leaves" },
       "interactive": false,
       "encode": {
         "enter": {
-          "x": {
-            "signal": "datum.x0 + 5"
-          },
-          "y": {
-            "signal": "datum.y0 + 15"
-          },
-          "fontSize": {
-            "value": 11
-          },
-          "fontWeight": {
-            "value": 600
-          },
-          "lineHeight": {
-            "value": 14
-          },
-          "limit": {
-            "signal": "datum.x1 - datum.x0 - 8"
-          },
-          "text": {
-            "signal": "(datum.y1 - datum.y0) > 34 && (datum.x1 - datum.x0) > 52 ? [datum.label, format(datum.applicants_2025, ',')] : datum.label"
-          },
-          "fill": {
-            "signal": "datum.offer_rate < 82 ? '#FFFFFF' : '#1D2433'"
-          },
-          "opacity": {
-            "signal": "(datum.x1 - datum.x0) > 30 && (datum.y1 - datum.y0) > 20 ? 1 : 0"
-          }
+          "fontSize": { "value": 11 },
+          "fontWeight": { "value": 600 },
+          "lineHeight": { "value": 14 },
+          "fill": { "signal": "datum.offer_rate < 82 ? '#FFFFFF' : '#1D2433'" }
+        },
+        "update": {
+          "x": { "signal": "datum.x0 + 5" },
+          "y": { "signal": "datum.y0 + 15" },
+          "limit": { "signal": "datum.x1 - datum.x0 - 8" },
+          "text": { "signal": "(datum.y1 - datum.y0) > 34 && (datum.x1 - datum.x0) > 52 ? [datum.label, format(datum.applicants_2025, ',')] : datum.label" },
+          "opacity": { "signal": "(datum.x1 - datum.x0) > 30 && (datum.y1 - datum.y0) > 20 ? 1 : 0" }
         }
       }
     }
