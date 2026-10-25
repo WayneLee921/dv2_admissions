@@ -245,3 +245,5 @@ figcaption { font-size: 0.82rem; color: var(--ink-2); margin-top: 6px; }
 .takeaways li { padding-left: 0.2em; }
 .takeaways li::marker { font-family: var(--serif); font-weight: 700; color: var(--my-text); }
 @media (max-width: 860px) { .takeaways ol { grid-template-columns: 1fr;} }
+
+.colophon a { color: var(--au); text-decoration: underline; text-underline-offset: 2px; }

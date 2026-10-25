@@ -22,26 +22,31 @@ const CHARTS = {
   c13: "specs/c13_flow_map.vl.json",
 };
 
+// Font stacks, defined once. Names with a digit or space must be quoted,
+// and the fallbacks are used if the web font fails to load.
+const SANS = "'Public Sans', Arial, sans-serif";
+const SERIF = "'Source Serif 4', Georgia, serif";
+
 const THEME = {
   background: null,                 // let the page colour show through
-  font: "'Public Sans', Arial, sans-serif",
+  font: SANS,
   view: { stroke: null },           // no border box around plots (data-ink)
   title: {
-    font: "'Source Serif 4', Georgia, serif",
+    font: SERIF,
     fontSize: 20,
     fontWeight: 600,
     color: "#1D2433",
     anchor: "start",
-    subtitleFont: "'Public Sans', Arial, sans-serif",
+    subtitleFont: SANS,
     subtitleFontSize: 13,
     subtitleColor: "#5A6475",
     offset: 12,
   },
   axis: {
-    labelFont: "Public Sans",
+    labelFont: SANS,
     labelFontSize: 12,
     labelColor: "#5A6475",
-    titleFont: "Public Sans",
+    titleFont: SANS,
     titleFontSize: 12,
     titleFontWeight: 500,
     titleColor: "#5A6475",
@@ -50,15 +55,15 @@ const THEME = {
     gridColor: "#E4E8EB",
   },
   legend: {
-    labelFont: "Public Sans",
+    labelFont: SANS,
     labelFontSize: 12,
     labelColor: "#1D2433",
-    titleFont: "Public Sans",
+    titleFont: SANS,
     titleFontSize: 12,
     titleColor: "#5A6475",
     symbolType: "square",
   },
-  text: { font: "Public Sans", fontSize: 12, color: "#1D2433" },
+  text: { font: SANS, fontSize: 12, color: "#1D2433" },
   range: {
     // Sequential blues for Australian data; marigold reserved for Malaysia.
     ramp: ["#E3EEF3", "#A9CBD8", "#5B9AB3", "#1F6F8B", "#12384A"],

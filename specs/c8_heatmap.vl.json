@@ -63,7 +63,7 @@
     },
     "layer": [
         {
-            "description": "Cells couloured by offers per 100 applicants (same scale as the treemap)",
+            "description": "Cells coloured by offers per 100 applicants (same scale as the treemap)",
             "params": [
                 {
                     "name": "hover_cell",

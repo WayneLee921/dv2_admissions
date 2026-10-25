@@ -15,11 +15,11 @@
     {
       "description": "Chart width follows the page column, and updates when the window is resized",
       "name": "width",
-      "init": "isFinite(containerSize()[0]) ? containerSize()[0] - 10 : 900",
+      "init": "max(320, (containerSize()[0] || 0) - 10)",
       "on": [
         {
           "events": "window:resize",
-          "update": "isFinite(containerSize()[0]) ? containerSize()[0] - 10 : 900"
+          "update": "max(320, (containerSize()[0] || 0) - 10)"
         }
       ]
     }
