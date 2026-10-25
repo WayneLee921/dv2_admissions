@@ -1,0 +1,261 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "C13 Flow map (origin–destination). Malaysian students who started a higher-education course in Australia in 2025, from Kuala Lumpur to the capital city of each state. Line width and circle area show the number of students. Victoria received 1,613 of 3,315 (49%). Azimuthal equal-area projection centred on the region between Malaysia and Australia. Sources: Department of Education, International student data, December 2025 (year to date); country boundaries from Natural Earth (public domain).",
+  "title": {
+    "text": "Half of Malaysia's new students choose Victoria",
+    "subtitle": [
+      "Malaysians starting a higher-education course in Australia,",
+      "2025, by state. Line width shows the number of students."
+    ]
+  },
+  "width": "container",
+  "height": 470,
+  "projection": {"type": "azimuthalEqualArea", "rotate": [-124, 17, 0]},
+  "layer": [
+    {
+      "description": "Base map: countries in quiet grey, Malaysia (the origin) in pale marigold",
+      "data": {
+        "url": "data/sea_countries.topojson",
+        "format": {"type": "topojson", "feature": "countries"}
+      },
+      "mark": {"type": "geoshape", "stroke": "#F7F8F5", "strokeWidth": 0.8},
+      "encoding": {
+        "color": {
+          "condition": {"test": "datum.properties.name === 'Malaysia'", "value": "#F3DCA6"},
+          "value": "#E6E9E6"
+        }
+      }
+    },
+    {
+      "description": "Flow lines: a curved path (quadratic Bezier) from Kuala Lumpur to each capital; width = students. Each destination bends by a different amount so flows spread apart instead of overlapping.",
+      "data": {
+        "url": "data/c13_malaysia_flows.csv",
+        "format": {
+          "parse": {
+            "lon": "number",
+            "lat": "number",
+            "origin_lon": "number",
+            "origin_lat": "number",
+            "commencements": "number"
+          }
+        }
+      },
+      "transform": [
+        {"joinaggregate": [{"op": "sum", "field": "commencements", "as": "total"}]},
+        {"calculate": "datum.commencements / datum.total", "as": "share"},
+        {"calculate": "sequence(0, 1.0001, 0.025)", "as": "t"},
+        {"flatten": ["t"]},
+        {
+          "calculate": "{'WA': -0.22, 'NT': 0.02, 'SA': 0.06, 'TAS': 0.1, 'VIC': 0.13, 'ACT': 0.18, 'NSW': 0.22, 'QLD': 0.3}[datum.abbr]",
+          "as": "bend"
+        },
+        {
+          "calculate": "(datum.origin_lon + datum.lon) / 2 - datum.bend * (datum.lat - datum.origin_lat)",
+          "as": "ctrl_lon"
+        },
+        {
+          "calculate": "(datum.origin_lat + datum.lat) / 2 + datum.bend * (datum.lon - datum.origin_lon)",
+          "as": "ctrl_lat"
+        },
+        {
+          "calculate": "pow(1 - datum.t, 2) * datum.origin_lon + 2 * (1 - datum.t) * datum.t * datum.ctrl_lon + pow(datum.t, 2) * datum.lon",
+          "as": "path_lon"
+        },
+        {
+          "calculate": "pow(1 - datum.t, 2) * datum.origin_lat + 2 * (1 - datum.t) * datum.t * datum.ctrl_lat + pow(datum.t, 2) * datum.lat",
+          "as": "path_lat"
+        }
+      ],
+      "mark": {"type": "line", "color": "#E3A72F", "opacity": 0.85, "strokeCap": "round"},
+      "encoding": {
+        "longitude": {"field": "path_lon", "type": "quantitative"},
+        "latitude": {"field": "path_lat", "type": "quantitative"},
+        "detail": {"field": "state"},
+        "order": {"field": "t"},
+        "strokeWidth": {
+          "field": "commencements",
+          "type": "quantitative",
+          "scale": {"domain": [0, 1613], "range": [1, 16]},
+          "legend": null
+        },
+        "tooltip": [
+          {"field": "state", "title": "State"},
+          {
+            "field": "commencements",
+            "type": "quantitative",
+            "title": "Malaysian students starting, 2025",
+            "format": ","
+          },
+          {
+            "field": "share",
+            "type": "quantitative",
+            "title": "Share of all Malaysian starters",
+            "format": ".0%"
+          }
+        ]
+      }
+    },
+    {
+      "description": "Destination circles at each capital; area = students",
+      "data": {
+        "url": "data/c13_malaysia_flows.csv",
+        "format": {
+          "parse": {
+            "lon": "number",
+            "lat": "number",
+            "origin_lon": "number",
+            "origin_lat": "number",
+            "commencements": "number"
+          }
+        }
+      },
+      "transform": [
+        {"joinaggregate": [{"op": "sum", "field": "commencements", "as": "total"}]},
+        {"calculate": "datum.commencements / datum.total", "as": "share"}
+      ],
+      "mark": {
+        "type": "circle",
+        "color": "#E3A72F",
+        "opacity": 1,
+        "stroke": "#8A5D05",
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "size": {
+          "field": "commencements",
+          "type": "quantitative",
+          "scale": {"domain": [0, 1613], "range": [12, 700]},
+          "legend": null
+        },
+        "tooltip": [
+          {"field": "state", "title": "State"},
+          {
+            "field": "commencements",
+            "type": "quantitative",
+            "title": "Malaysian students starting, 2025",
+            "format": ","
+          },
+          {
+            "field": "share",
+            "type": "quantitative",
+            "title": "Share of all Malaysian starters",
+            "format": ".0%"
+          }
+        ]
+      }
+    },
+    {
+      "description": "Origin: Kuala Lumpur",
+      "data": {"values": [{"name": "Kuala Lumpur", "lon": 101.69, "lat": 3.14}]},
+      "layer": [
+        {
+          "mark": {"type": "circle", "size": 90, "color": "#8A5D05"},
+          "encoding": {
+            "longitude": {"field": "lon", "type": "quantitative"},
+            "latitude": {"field": "lat", "type": "quantitative"}
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "center",
+            "dy": -14,
+            "fontSize": 12,
+            "fontWeight": 700,
+            "color": "#8A5D05"
+          },
+          "encoding": {
+            "longitude": {"field": "lon", "type": "quantitative"},
+            "latitude": {"field": "lat", "type": "quantitative"},
+            "text": {"field": "name"}
+          }
+        }
+      ]
+    },
+    {
+      "description": "Labels for destinations: city and number of students (Canberra left to the tooltip)",
+      "data": {
+        "url": "data/c13_malaysia_flows.csv",
+        "format": {
+          "parse": {
+            "lon": "number",
+            "lat": "number",
+            "origin_lon": "number",
+            "origin_lat": "number",
+            "commencements": "number"
+          }
+        }
+      },
+      "transform": [
+        {"joinaggregate": [{"op": "sum", "field": "commencements", "as": "total"}]},
+        {"calculate": "datum.commencements / datum.total", "as": "share"},
+        {"filter": "datum.abbr !== 'ACT'"},
+        {
+          "calculate": "[datum.city, format(datum.commencements, ',') + (datum.commencements > 300 ? ' (' + format(datum.share, '.0%') + ')' : '')]",
+          "as": "label"
+        }
+      ],
+      "layer": [
+        {
+          "description": "Labels to the right of their circle",
+          "transform": [{"filter": {"field": "abbr", "oneOf": ["NT", "QLD", "NSW", "TAS"]}}],
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "dx": 14,
+            "dy": 0,
+            "fontSize": 11,
+            "lineHeight": 13,
+            "fontWeight": 600,
+            "color": "#1D2433"
+          },
+          "encoding": {
+            "longitude": {"field": "lon", "type": "quantitative"},
+            "latitude": {"field": "lat", "type": "quantitative"},
+            "text": {"field": "label"}
+          }
+        },
+        {
+          "description": "Labels to the left (west coast and Adelaide)",
+          "transform": [{"filter": {"field": "abbr", "oneOf": ["WA", "SA"]}}],
+          "mark": {
+            "type": "text",
+            "align": "right",
+            "dx": -12,
+            "dy": 0,
+            "fontSize": 11,
+            "lineHeight": 13,
+            "fontWeight": 600,
+            "color": "#1D2433"
+          },
+          "encoding": {
+            "longitude": {"field": "lon", "type": "quantitative"},
+            "latitude": {"field": "lat", "type": "quantitative"},
+            "text": {"field": "label"}
+          }
+        },
+        {
+          "description": "Melbourne below-left, clear of Adelaide and Sydney",
+          "transform": [{"filter": {"field": "abbr", "oneOf": ["VIC"]}}],
+          "mark": {
+            "type": "text",
+            "align": "right",
+            "dx": -14,
+            "dy": 18,
+            "fontSize": 11,
+            "lineHeight": 13,
+            "fontWeight": 600,
+            "color": "#1D2433"
+          },
+          "encoding": {
+            "longitude": {"field": "lon", "type": "quantitative"},
+            "latitude": {"field": "lat", "type": "quantitative"},
+            "text": {"field": "label"}
+          }
+        }
+      ]
+    }
+  ]
+}

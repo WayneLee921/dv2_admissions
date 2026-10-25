@@ -233,3 +233,15 @@ figcaption { font-size: 0.82rem; color: var(--ink-2); margin-top: 6px; }
 .vega-bindings {margin-top: 10px; font-size: 0.85rem; color: var(--ink-2);}
 .vega-bind-name {font-weight: 600; margin-right: 6px;}
 .vega-bind input[type="range"] {accent-color: var(--au); width: 220px; vertical-align: middle;}
+
+/* Section 5: three takeaways side by side */
+.takeaways ol {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap);
+  margin: 0.6rem 0 0;
+  padding-left: 1.2em;
+}
+.takeaways li { padding-left: 0.2em; }
+.takeaways li::marker { font-family: var(--serif); font-weight: 700; color: var(--my-text); }
+@media (max-width: 860px) { .takeaways ol { grid-template-columns: 1fr;} }

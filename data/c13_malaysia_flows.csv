@@ -1,0 +1,9 @@
+state,abbr,city,lon,lat,commencements,origin,origin_lon,origin_lat
+Victoria,VIC,Melbourne,144.96,-37.81,1613,Kuala Lumpur,101.69,3.14
+New South Wales,NSW,Sydney,151.21,-33.87,639,Kuala Lumpur,101.69,3.14
+Queensland,QLD,Brisbane,153.03,-27.47,414,Kuala Lumpur,101.69,3.14
+Western Australia,WA,Perth,115.86,-31.95,389,Kuala Lumpur,101.69,3.14
+South Australia,SA,Adelaide,138.6,-34.93,177,Kuala Lumpur,101.69,3.14
+Australian Capital Territory,ACT,Canberra,149.13,-35.28,52,Kuala Lumpur,101.69,3.14
+Tasmania,TAS,Hobart,147.33,-42.88,26,Kuala Lumpur,101.69,3.14
+Northern Territory,NT,Darwin,130.84,-12.46,5,Kuala Lumpur,101.69,3.14
