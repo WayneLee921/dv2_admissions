@@ -247,3 +247,11 @@ figcaption { font-size: 0.82rem; color: var(--ink-2); margin-top: 6px; }
 @media (max-width: 860px) { .takeaways ol { grid-template-columns: 1fr;} }
 
 .colophon a { color: var(--au); text-decoration: underline; text-underline-offset: 2px; }
+
+/* Faint divider between chart units inside a section.
+   Lighter and shorter than the section border, so the hierarchy stays clear. */
+.divider {
+  border: 0;
+  border-top: 1px solid #E4E8EB;
+  margin: 8px 0 calc(var(--gap) + 8px);
+}

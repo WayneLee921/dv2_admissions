@@ -24,7 +24,7 @@
   "hconcat": [
     {
       "description": "Low SES: share of the group's Year 12 applicants in each ATAR band",
-      "title": {"text": "Low SES", "fontSize": 13, "anchor": "end", "color": "#3D7D97"},
+      "title": {"text": "Low SES", "fontSize": 13, "anchor": "end", "color": "#6E5290"},
       "width": 185,
       "transform": [{"filter": "datum.ses === 'Low SES'"}],
       "encoding": {
@@ -44,7 +44,7 @@
       },
       "layer": [
         {
-          "mark": {"type": "bar", "color": "#6FA3BA", "cornerRadius": 2, "height": {"band": 0.75}},
+          "mark": {"type": "bar", "color": "#9D82D5", "cornerRadius": 2, "height": {"band": 0.75}},
           "encoding": {
             "tooltip": [
               {"field": "ses", "title": "Group"},
@@ -93,7 +93,7 @@
     },
     {
       "description": "High SES: share of the group's Year 12 applicants in each ATAR band",
-      "title": {"text": "High SES", "fontSize": 13, "anchor": "start", "color": "#12384A"},
+      "title": {"text": "High SES", "fontSize": 13, "anchor": "start", "color": "#4A2F66"},
       "width": 185,
       "transform": [{"filter": "datum.ses === 'High SES'"}],
       "encoding": {
@@ -113,7 +113,7 @@
       },
       "layer": [
         {
-          "mark": {"type": "bar", "color": "#12384A", "cornerRadius": 2, "height": {"band": 0.75}},
+          "mark": {"type": "bar", "color": "#4A2F66", "cornerRadius": 2, "height": {"band": 0.75}},
           "encoding": {
             "tooltip": [
               {"field": "ses", "title": "Group"},
